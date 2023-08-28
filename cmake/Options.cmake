@@ -27,14 +27,13 @@ endmacro()
 
 # Try to auto-detect the presence of some libraries in order to enable/disable
 # the transports/channels that make use of them.
-# TODO Add CUDA to this list, in order to fix the TODO below
 
 # TODO: Default to ON if NPU available.
 
 # Optional features
-option(TP_BUILD_BENCHMARK "Build benchmarks" OFF)
-option(TP_BUILD_MISC "Build misc tools" OFF)
-option(TP_BUILD_PYTHON "Build python bindings" OFF)
+option(TP_BUILD_BENCHMARK "Build benchmarks" ON)
+option(TP_BUILD_MISC "Build misc tools" ON)
+option(TP_BUILD_PYTHON "Build python bindings" ON)
 option(TP_BUILD_TESTING "Build tests" OFF)
 
 # Whether to build a static or shared library

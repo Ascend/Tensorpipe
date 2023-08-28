@@ -146,19 +146,14 @@ struct Options parseOptions(int argc, char** argv) {
       case TENSOR_TYPE:
         if (std::string(optarg) == "cpu") {
           options.tensorType = TensorType::kCpu;
-        } else if (std::string(optarg) == "cuda") {
-          options.tensorType = TensorType::kCuda;
-        } else {
+        }else {
           fprintf(stderr, "Error:\n");
-          fprintf(stderr, "  --tensor-type must be [cpu|cuda]\n");
+          fprintf(stderr, "  --tensor-type must be [cpu]\n");
           exit(EXIT_FAILURE);
         }
         break;
       case METADATA_SIZE:
         options.metadataSize = std::strtoull(optarg, nullptr, 10);
-        break;
-      case CUDA_SYNC_PERIOD:
-        options.cudaSyncPeriod = std::strtoull(optarg, nullptr, 10);
         break;
       case HELP:
         usage(EXIT_SUCCESS, argv[0]);
