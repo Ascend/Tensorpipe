@@ -943,7 +943,7 @@ template <class T>
 constexpr bool operator<=(const T& v, const optional<const T&>& x) {
   return bool(x) ? v <= *x : false;
 }
-static_assert
+
 template <class T>
 constexpr bool operator<=(const optional<const T&>& x, const T& v) {
   return bool(x) ? *x <= v : true;
