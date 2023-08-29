@@ -61,6 +61,17 @@ if(TP_ENABLE_CMA)
   add_subdirectory(channel/cma)
 endif()
 
+if(TP_ENABLE_IBV)
+  list(APPEND TP_TEST_SRCS
+    common/epoll_loop_test.cc
+    common/ringbuffer_test.cc
+    transport/ibv/sockaddr_test.cc
+    transport/ibv/context_test.cc
+    transport/ibv/ibv_test.cc
+    transport/ibv/connection_test.cc
+    )
+endif()
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/googletest
   ${PROJECT_BINARY_DIR}/third_party/googletest EXCLUDE_FROM_ALL)
 
