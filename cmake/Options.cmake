@@ -33,8 +33,8 @@ endmacro()
 
 # Optional features
 option(TP_BUILD_BENCHMARK "Build benchmarks" ON)
-option(TP_BUILD_MISC "Build misc tools" ON)
-option(TP_BUILD_PYTHON "Build python bindings" ON)
+option(TP_BUILD_MISC "Build misc tools" OFF)
+option(TP_BUILD_PYTHON "Build python bindings" OFF)
 option(TP_BUILD_TESTING "Build tests" ON)
 
 # Whether to build a static or shared library

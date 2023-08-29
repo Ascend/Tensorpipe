@@ -40,6 +40,27 @@ list(APPEND TP_TEST_SRCS
   common/defs_test.cc
   )
 
+if(TP_ENABLE_SHM)
+  list(APPEND TP_TEST_SRCS
+    common/epoll_loop_test.cc
+    common/ringbuffer_test.cc
+    common/shm_ringbuffer_test.cc
+    common/shm_segment_test.cc
+    transport/shm/reactor_test.cc
+    transport/shm/connection_test.cc
+    transport/shm/listener_test.cc
+    transport/shm/sockaddr_test.cc
+    transport/shm/shm_test.cc
+    )
+endif()
+
+if(TP_ENABLE_CMA)
+  list(APPEND TP_TEST_SRCS
+    channel/cma/cma_test.cc
+    )
+  add_subdirectory(channel/cma)
+endif()
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/googletest
   ${PROJECT_BINARY_DIR}/third_party/googletest EXCLUDE_FROM_ALL)
 
