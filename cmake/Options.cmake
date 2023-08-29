@@ -1,4 +1,5 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
+# Copyright (c) 2023 Huawei Technologies Co., Ltd
+# Copyright (c) 2020 Meta Platforms, Inc. and affiliates.
 # All rights reserved.
 #
 # This source code is licensed under the BSD-style license found in the
@@ -34,7 +35,7 @@ endmacro()
 option(TP_BUILD_BENCHMARK "Build benchmarks" ON)
 option(TP_BUILD_MISC "Build misc tools" ON)
 option(TP_BUILD_PYTHON "Build python bindings" ON)
-option(TP_BUILD_TESTING "Build tests" OFF)
+option(TP_BUILD_TESTING "Build tests" ON)
 
 # Whether to build a static or shared library
 if(BUILD_SHARED_LIBS)
