@@ -101,6 +101,19 @@ list(APPEND TP_SRCS
 list(APPEND TP_PUBLIC_HDRS
   channel/mpt/factory.h)
 
+
+### npu basic
+list(APPEND TP_SRCS 
+    common/npu_buffer.cc
+    channel/npu_basic/channel_impl.cc
+    channel/npu_basic/context_impl.cc
+    channel/npu_basic/factory.cc
+    common/npu_loop.cc) 
+list(APPEND TP_PUBLIC_HDRS 
+    tensorpipe_npu.h
+    common/npu_buffer.h
+    channel/npu_basic/factory.h)  
+
 ## Transports
 
 ### uv
@@ -187,7 +200,6 @@ configure_file(config.h.in config.h)
 # is still unclear whether it should be a public or private header).
 list(APPEND TP_INCLUDE_DIRS $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/libnop/include>)
 
-
 ## Target
 
 # Add the tensorpipe library target
@@ -201,6 +213,15 @@ endif()
 # Add all the link libraries and include directories to the tensorpipe target and keeping the link PUBLIC
 target_link_libraries(tensorpipe PRIVATE ${TP_LINK_LIBRARIES})
 target_include_directories(tensorpipe PUBLIC ${TP_INCLUDE_DIRS})
+
+set(TORCHNPU_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party") 
+link_directories(${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libhccl.so) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libascendcl.so) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libacl_op_compiler.so) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libge_runner.so) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libgraph.so) 
+target_link_libraries(tensorpipe PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libacl_tdt_channel.so)
 
 
 ## Install

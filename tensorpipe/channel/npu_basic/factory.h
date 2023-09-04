@@ -9,7 +9,17 @@
 
 #pragma once
 
-class TestEnvironment {
- public:
-  static int numNPUDevices();
-};
+#include <memory>
+
+#include <tensorpipe/channel/context.h>
+
+namespace tensorpipe {
+namespace channel {
+namespace npu_basic {
+
+std::shared_ptr<Context> create(std::shared_ptr<Context> cpuContext);
+
+} // namespace npu_basic
+} // namespace channel
+} // namespace tensorpipe
+
