@@ -40,6 +40,14 @@ list(APPEND TP_TEST_SRCS
   common/defs_test.cc
   )
 
+list(APPEND TP_TEST_LINK_LIBRARIES ${NPU_LIBRARIES}) 
+list(APPEND TP_TEST_INCLUDE_DIRS ${NPU_INCLUDE_DIRS})
+
+list(APPEND TP_TEST_SRCS 
+  channel/channel_test_npu.cc
+  channel/npu_basic/npu_basic_test.cc
+  common/npu_test.cc)  
+
 if(TP_ENABLE_SHM)
   list(APPEND TP_TEST_SRCS
     common/epoll_loop_test.cc
@@ -85,3 +93,11 @@ add_executable(tensorpipe_test ${TP_TEST_SRCS})
 
 # Add all the dependent link libraries to the tensorpipe_test target
 target_link_libraries(tensorpipe_test PRIVATE ${TP_TEST_LINK_LIBRARIES})
+set(TORCHNPU_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party") 
+link_directories(${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libhccl.so) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libascendcl.so) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libacl_op_compiler.so) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libge_runner.so) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libgraph.so) 
+target_link_libraries(tensorpipe_test PUBLIC ${TORCHNPU_THIRD_PARTY_ROOT}/acl/libs/libacl_tdt_channel.so)
