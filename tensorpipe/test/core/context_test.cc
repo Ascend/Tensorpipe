@@ -18,6 +18,9 @@
 #include <tensorpipe/tensorpipe.h>
 #include <tensorpipe/test/peer_group.h>
 
+#include <tensorpipe/tensorpipe_npu.h>
+#include <tensorpipe/common/npu.h>
+
 using namespace tensorpipe;
 
 namespace {
@@ -103,7 +106,7 @@ namespace {
 
 // Having 4 payloads per message is arbitrary.
 constexpr int kNumPayloads = 4;
-// Having 4 tensors per message ensures there are 2 CPU tensors and 2 CUDA
+// Having 4 tensors per message ensures there are 2 CPU tensors and 2 NPU
 // tensors.
 constexpr int kNumTensors = 4;
 std::string kPayloadData = "I'm a payload";
@@ -209,6 +212,8 @@ std::shared_ptr<Context> makeContext() {
 #if TENSORPIPE_HAS_CMA_CHANNEL
   context->registerChannel(1, "cma", channel::cma::create());
 #endif // TENSORPIPE_HAS_CMA_CHANNEL
+  context->registerChannel(10, "npu_basic", channel::npu_basic::create(
+  channel::basic::create()));
 
   return context;
 }

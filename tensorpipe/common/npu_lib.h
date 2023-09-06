@@ -54,7 +54,7 @@ class NPULib {
     Error error;
     DynamicLibraryHandle dlhandle;
     // To keep things "neat" and contained, we open in "local" mode (as
-    // opposed to global) so that the cuda symbols can only be resolved
+    // opposed to global) so that the npu symbols can only be resolved
     // through this handle and are not exposed (a.k.a., "leaked") to other
     // shared objects.
     std::tie(error, dlhandle) =

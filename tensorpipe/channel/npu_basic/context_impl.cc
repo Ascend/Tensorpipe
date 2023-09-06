@@ -117,7 +117,7 @@ bool ContextImpl::canCommunicateWithRemote(
   DeviceDescriptor nopRemoteDeviceDescriptor =
       deserializeDeviceDescriptor(remoteDeviceDescriptor);
 
-  // Prevent CudaBasic from being mistakenly used for CPU to CPU transfers, as
+  // Prevent NpuBasic from being mistakenly used for CPU to CPU transfers, as
   // there are always better options.
   if (nopLocalDeviceDescriptor.deviceType == kCpuDeviceType &&
       nopRemoteDeviceDescriptor.deviceType == kCpuDeviceType) {

@@ -60,7 +60,7 @@ TEST(NPU, DeviceForPointer) {
 
 // This tests whether we can retrieve the index of the device on which a pointer
 // resided after we've explicitly set the current device to an invalid value.
-// This is known to cause problems in recent versions of CUDA, possibly because
+// This is known to cause problems in recent versions of NPU, possibly because
 // of a bug.
 TEST(NPU, DeviceForPointerAfterReset) {
   if (TestEnvironment::numNPUDevices() < 2) {

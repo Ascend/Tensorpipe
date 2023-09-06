@@ -28,7 +28,7 @@ static_assert(kStagingAreaSize == kSlotSize * kNumSlots, "");
 
 } // namespace
 
-} // namespace cuda_basic
+} // namespace npu_basic
 } // namespace channel
 } // namespace tensorpipe
 

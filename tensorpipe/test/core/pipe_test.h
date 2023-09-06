@@ -19,6 +19,10 @@
 #include <tensorpipe/tensorpipe.h>
 #include <tensorpipe/test/peer_group.h>
 
+#include <tensorpipe/tensorpipe_npu.h>
+#include <tensorpipe/common/npu.h>
+
+
 struct Storage {
   std::vector<std::shared_ptr<void>> payloads;
   std::vector<std::pair<std::shared_ptr<void>, tensorpipe::Buffer>> tensors;
@@ -253,6 +257,8 @@ inline std::shared_ptr<tensorpipe::Context> makeContext() {
 #if TENSORPIPE_HAS_CMA_CHANNEL
   context->registerChannel(101, "cma", tensorpipe::channel::cma::create());
 #endif // TENSORPIPE_HAS_CMA_CHANNEL
+  context->registerChannel(10, "npu_basic", tensorpipe::channel::npu_basic::create(
+  tensorpipe::channel::basic::create()));
 
   return context;
 }

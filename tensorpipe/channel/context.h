@@ -44,7 +44,7 @@ class Context {
   // Return the number of control connections needed to create an instance of
   // this channel.
   //
-  // Most channels require only one, but some require more (cuda_basic), and
+  // Most channels require only one, but some require more (npu_basic), and
   // some might require none.
   //
   virtual size_t numConnectionsNeeded() const = 0;
