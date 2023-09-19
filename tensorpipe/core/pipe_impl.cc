@@ -24,6 +24,9 @@
 #include <tensorpipe/core/listener_impl.h>
 #include <tensorpipe/transport/connection.h>
 
+#include <thread>
+#include <unistd.h>
+
 namespace tensorpipe {
 
 namespace {
@@ -586,6 +589,7 @@ void PipeImpl::writeFromLoop(Message message, write_callback_fn fn) {
 //
 
 void PipeImpl::callReadDescriptorCallback(ReadOpIter opIter) {
+  TP_VLOG(3) << "PipeImpl::callReadDescriptorCallback pid=" << getpid() << " thread_id=" << std::this_thread::get_id();
   TP_DCHECK(context_->inLoop());
 
   ReadOperation& op = *opIter;

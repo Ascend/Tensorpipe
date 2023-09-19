@@ -175,7 +175,8 @@ class ChannelImpl final
       size_t length,
       int deviceIdx,
       aclrtStream stream,
-      std::function<void(const Error&)> callback);
+      std::function<void(const Error&)> callback,
+      aclrtMemcpyKind copy_kind);
 };
 
 } // namespace npu_basic

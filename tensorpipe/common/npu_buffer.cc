@@ -11,6 +11,7 @@
 
 #include <tensorpipe/common/npu.h>
 #include <tensorpipe/common/defs.h>
+#include <tensorpipe/common/device_id.h>
 
 namespace tensorpipe {
 
@@ -25,7 +26,7 @@ Device NPUBuffer::getDevice() const {
     return lib;
   }();
 
-  return Device{kNpuDeviceType, 1};
+  return Device{kNpuDeviceType, getDeviceId()};
 }
 
 } // namespace tensorpipe

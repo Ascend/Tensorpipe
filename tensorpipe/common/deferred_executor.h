@@ -23,6 +23,8 @@
 
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/system.h>
+#include <tensorpipe/common/device_id.h>
+#include <third_party/acl/inc/acl/acl_rt.h>
 
 namespace tensorpipe {
 
@@ -226,8 +228,10 @@ class EventLoopDeferredExecutor : public virtual DeferredExecutor {
 
  private:
   void loop(std::string threadName) {
+    TP_VLOG(3) << "EventLoopDeferredExecutor::loop Set device id for new thread, device_id=" << getDeviceId() << " pid=" 
+               << getpid() << " thread_id=" << std::this_thread::get_id();
+    aclrtSetDevice(getDeviceId());
     setThreadName(std::move(threadName));
-
     eventLoop();
 
     // The loop is winding down and "handing over" control to the on demand
