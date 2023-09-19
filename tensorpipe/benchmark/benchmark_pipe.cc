@@ -16,6 +16,8 @@
 #include <tensorpipe/benchmark/options.h>
 #include <tensorpipe/benchmark/transport_registry.h>
 #include <tensorpipe/common/cpu_buffer.h>
+#include <tensorpipe/common/npu.h>
+#include <tensorpipe/common/npu_buffer.h>
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/core/context.h>
 #include <tensorpipe/core/listener.h>
@@ -29,6 +31,21 @@ static constexpr int kNumWarmUpRounds = 5;
 using Payload = std::unique_ptr<uint8_t[]>;
 using CpuTensor = std::unique_ptr<uint8_t[]>;
 
+struct NpuMemoryDeleter {
+    void operator()(void* ptr) {
+        TP_NPU_CHECK(aclrtFree(ptr));
+	}
+};
+
+struct NpuStreamDeleter {
+    void operator()(aclrtStream stream) {
+        TP_NPU_CHECK(aclrtDestroyStream(stream));
+	}
+};
+
+using NpuTensor = std::unique_ptr<uint8_t[], NpuMemoryDeleter>;
+using NpuStream = std::unique_ptr<std::remove_pointer_t<aclrtStream>, NpuStreamDeleter>;
+
 struct Data {
   size_t numPayloads;
   size_t payloadSize;
@@ -40,14 +57,20 @@ struct Data {
   size_t tensorSize;
   TensorType tensorType;
   std::vector<CpuTensor> expectedCpuTensor;
+  std::vector<NpuTensor> expectedNpuTensor;
   std::vector<std::string> expectedTensorMetadata;
   std::vector<CpuTensor> temporaryCpuTensor;
+  std::vector<NpuTensor> temporaryNpuTensor;
+  NpuStream npuStream;
+  size_t npuSyncPeriod;
+  
   std::string expectedMetadata;
 };
 
 struct MultiDeviceMeasurements {
   // The CPU time to do each ping-pong.
   Measurements cpu;
+  Measurements npu;
 };
 
 static void printMeasurements(Measurements& measurements, size_t dataLen) {
@@ -78,6 +101,7 @@ static void printMultiDeviceMeasurements(
     MultiDeviceMeasurements& measurements,
     size_t dataLen) {
   printMeasurements(measurements.cpu, dataLen);
+  printMeasurements(measurements.npu, dataLen);
 }
 
 static std::unique_ptr<uint8_t[]> createEmptyCpuData(size_t size) {
@@ -92,6 +116,27 @@ static std::unique_ptr<uint8_t[]> createFullCpuData(size_t size) {
   }
   return data;
 }
+
+static NpuTensor createEmptyNpuData(size_t size) {
+  void* ptr;
+  TP_NPU_CHECK(aclrtMalloc(&ptr, size, ACL_MEM_MALLOC_HUGE_FIRST));
+  return NpuTensor((uint8_t*)ptr);
+}
+
+static NpuTensor createFullNpuData(size_t size) {
+  void* ptr;
+  TP_NPU_CHECK(aclrtMalloc(&ptr, size, ACL_MEM_MALLOC_HUGE_FIRST));
+  CpuTensor data = createFullCpuData(size);
+  TP_NPU_CHECK(aclrtMemcpy(ptr, size, data.get(), size, ACL_MEMCPY_HOST_TO_DEVICE));
+  return NpuTensor((uint8_t*)ptr);
+}
+
+static NpuStream createNpuStream() {
+  aclrtStream stream;
+  TP_NPU_CHECK(aclrtCreateStreamWithConfig(&stream, 0, (ACL_STREAM_FAST_LAUNCH | ACL_STREAM_FAST_SYNC)));
+  return NpuStream(stream);
+}
+
 
 static void serverPongPingNonBlock(
     std::shared_ptr<Pipe> pipe,
@@ -134,7 +179,12 @@ static void serverPongPingNonBlock(
               allocation.tensors[tensorIdx].buffer = CpuBuffer{
                   .ptr = data.temporaryCpuTensor[tensorIdx].get(),
               };
-            } else {
+            } else if (data.tensorType == TensorType::kNpu) {
+              allocation.tensors[tensorIdx].buffer = NPUBuffer{
+                  .ptr = data.temporaryNpuTensor[tensorIdx].get(),
+				  .stream = data.npuStream.get(),
+              	};
+			} else {
               TP_THROW_ASSERT() << "Unknown tensor type";
             }
           }
@@ -192,7 +242,10 @@ static void serverPongPingNonBlock(
                             data.expectedCpuTensor[tensorIdx].get(),
                             descriptor.tensors[tensorIdx].length),
                         0);
-                  } else {
+                  } else if (data.tensorType == TensorType::kNpu) {
+                    // No (easy) way to do a memcmp with NPU 
+
+				  }else {
                     TP_THROW_ASSERT() << "Unknown tensor type";
                   }
                   message.tensors[tensorIdx] = {
@@ -260,10 +313,15 @@ static void runServer(const Options& options) {
     if (options.tensorType == TensorType::kCpu) {
       data.expectedCpuTensor.push_back(createFullCpuData(options.tensorSize));
       data.temporaryCpuTensor.push_back(createEmptyCpuData(options.tensorSize));
-    } else {
+    } else if (options.tensorType == TensorType::kNpu) {
+      data.expectedNpuTensor.push_back(createFullNpuData(options.tensorSize));
+      data.temporaryNpuTensor.push_back(createEmptyNpuData(options.tensorSize));
+	  data.npuStream = createNpuStream();
+	} else {
       TP_THROW_ASSERT() << "Unknown tensor type";
     }
   }
+  data.npuSyncPeriod = options.npuSyncPeriod;
   data.expectedMetadata = std::string(options.metadataSize, 0x42);
 
   Measurements measurements;
@@ -326,7 +384,12 @@ static void clientPingPongNonBlock(
         tensor.buffer =
             CpuBuffer{.ptr = data.expectedCpuTensor[tensorIdx].get()};
         tensor.targetDevice = Device(kCpuDeviceType, 0);
-      } else {
+      } else if (data.tensorType == TensorType::kNpu) {
+        tensor.buffer =
+            NPUBuffer{.ptr = data.expectedNpuTensor[tensorIdx].get(),
+                     .stream = data.npuStream.get(),};
+        tensor.targetDevice = Device(kNpuDeviceType, 0);
+	  }else {
         TP_THROW_ASSERT() << "Unknown tensor type";
       }
       message.tensors.push_back(std::move(tensor));
@@ -380,7 +443,12 @@ static void clientPingPongNonBlock(
                 allocation.tensors[tensorIdx].buffer = CpuBuffer{
                     .ptr = data.temporaryCpuTensor[tensorIdx].get(),
                 };
-              } else {
+              } else if (data.tensorType == TensorType::kNpu) {
+                allocation.tensors[tensorIdx].buffer = NPUBuffer{
+                    .ptr = data.temporaryNpuTensor[tensorIdx].get(),
+					.stream = data.npuStream.get(),
+                };
+			  }else {
                 TP_THROW_ASSERT() << "Unknown tensor type";
               }
             }
@@ -428,7 +496,9 @@ static void clientPingPongNonBlock(
                               data.expectedCpuTensor[tensorIdx].get(),
                               descriptor.tensors[tensorIdx].length),
                           0);
-                    } else {
+                    } else if (data.tensorType == TensorType::kNpu) {
+                      // No (easy) way to do a memcmp with NPU;
+					} else {
                       TP_THROW_ASSERT() << "Unknown tensor type";
                     }
                   }
@@ -481,7 +551,11 @@ static void runClient(const Options& options) {
     if (data.tensorType == TensorType::kCpu) {
       data.expectedCpuTensor.push_back(createFullCpuData(options.tensorSize));
       data.temporaryCpuTensor.push_back(createEmptyCpuData(options.tensorSize));
-    } else {
+    } else if (data.tensorType == TensorType::kNpu) {
+      data.expectedNpuTensor.push_back(createFullNpuData(options.tensorSize));
+      data.temporaryNpuTensor.push_back(createEmptyNpuData(options.tensorSize));
+	  data.npuStream = createNpuStream();
+	} else {
       TP_THROW_ASSERT() << "Unknown tensor type";
     }
   }
@@ -489,6 +563,7 @@ static void runClient(const Options& options) {
 
   MultiDeviceMeasurements measurements;
   measurements.cpu.reserve(options.numRoundTrips);
+  measurements.npu.reserve(options.numRoundTrips / data.npuSyncPeriod);
 
   std::shared_ptr<Context> context = std::make_shared<Context>();
   auto transportContext =
@@ -522,7 +597,7 @@ int main(int argc, char** argv) {
   std::cout << "num_tensors = " << x.numTensors << "\n";
   std::cout << "tensor_size = " << x.tensorSize << "\n";
   std::cout << "tensor_type = "
-            << "cpu" << "\n";
+            << (x.tensorType == TensorType::kCpu ? "cpu" : "npu") << "\n";
   std::cout << "metadata_size = " << x.metadataSize << "\n";
 
   if (x.mode == "listen") {

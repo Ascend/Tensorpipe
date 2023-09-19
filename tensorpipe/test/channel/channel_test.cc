@@ -14,7 +14,7 @@
 using namespace tensorpipe;
 using namespace tensorpipe::channel;
 
-// Implement this in a subprocess as in some cases it may initialize CUDA and
+// Implement this in a subprocess as in some cases it may initialize NPU and
 // thus would otherwise "pollute" the parent process.
 class DeviceDescriptorsTest : public ChannelTestCase {
  public:

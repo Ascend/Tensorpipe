@@ -19,6 +19,7 @@ namespace benchmark {
 
 enum class TensorType {
   kCpu,
+  kNpu,
 };
 
 struct Options {
@@ -33,6 +34,7 @@ struct Options {
   size_t tensorSize{0};
   TensorType tensorType{TensorType::kCpu};
   size_t metadataSize{0};
+  size_t npuSyncPeriod{1};
 };
 
 struct Options parseOptions(int argc, char** argv);

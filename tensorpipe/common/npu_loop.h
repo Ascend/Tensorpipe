@@ -57,11 +57,11 @@ class NPULoop {
 
   void processCallbacks();
 
-  // Proxy static method for cudaStreamAddCallback(), which does not accept
+  // Proxy static method for npuStreamAddCallback(), which does not accept
   // lambdas.
   static void  runNPUCallback(
       aclrtStream stream,
-      aclError cudaError,
+      aclError npuError,
       void* callbackPtr);
 };
 

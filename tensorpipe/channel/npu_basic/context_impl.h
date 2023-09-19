@@ -66,7 +66,7 @@ class ContextImpl final
   const NPULib npuLib_;
 
   const std::shared_ptr<Context> cpuContext_;
-  // TODO: Lazy initialization of cuda loop.
+  // TODO: Lazy initialization of npu loop.
   NPULoop npuLoop_;
 
   struct NPUHostAllocator {

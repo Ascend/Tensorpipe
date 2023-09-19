@@ -34,9 +34,9 @@ static void usage(int status, const char* argv0) {
   X("--payload-size=SIZE [optional]   Size of payload of each write/read pair");
   X("--num-tensors=NUM [optional]     Number of tensors of each write/read pair");
   X("--tensor-size=SIZE [optional]    Size of tensor of each write/read pair");
-  X("--tensor-type=TYPE [optional]    Type of tensor (cpu or cuda)");
+  X("--tensor-type=TYPE [optional]    Type of tensor (cpu or npu)");
   X("--metadata-size=SIZE [optional]  Size of metadata of each write/read pair");
-  X("--cuda-sync-period=NUM [optiona] Number of round-trips between two stream syncs");
+  X("--npu-sync-period=NUM [optiona] Number of round-trips between two stream syncs");
 
   exit(status);
 }
@@ -81,7 +81,7 @@ struct Options parseOptions(int argc, char** argv) {
     TENSOR_SIZE,
     TENSOR_TYPE,
     METADATA_SIZE,
-    CUDA_SYNC_PERIOD,
+    NPU_SYNC_PERIOD,
     HELP,
   };
 
@@ -97,7 +97,7 @@ struct Options parseOptions(int argc, char** argv) {
       {"tensor-size", required_argument, &flag, TENSOR_SIZE},
       {"tensor-type", required_argument, &flag, TENSOR_TYPE},
       {"metadata-size", required_argument, &flag, METADATA_SIZE},
-      {"cuda-sync-period", required_argument, &flag, CUDA_SYNC_PERIOD},
+      {"npu-sync-period", required_argument, &flag, NPU_SYNC_PERIOD},
       {"help", no_argument, &flag, HELP},
       {nullptr, 0, nullptr, 0}};
 
@@ -146,7 +146,9 @@ struct Options parseOptions(int argc, char** argv) {
       case TENSOR_TYPE:
         if (std::string(optarg) == "cpu") {
           options.tensorType = TensorType::kCpu;
-        }else {
+        } else if (std::string(optarg) == "npu") {
+          options.tensorType = TensorType::kNpu;
+        } else {
           fprintf(stderr, "Error:\n");
           fprintf(stderr, "  --tensor-type must be [cpu]\n");
           exit(EXIT_FAILURE);
@@ -155,6 +157,9 @@ struct Options parseOptions(int argc, char** argv) {
       case METADATA_SIZE:
         options.metadataSize = std::strtoull(optarg, nullptr, 10);
         break;
+	  case NPU_SYNC_PERIOD:
+	  	options.npuSyncPeriod = std::strtoull(optarg, nullptr, 10);
+		break;
       case HELP:
         usage(EXIT_SUCCESS, argv[0]);
         break;

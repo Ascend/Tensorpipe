@@ -10,6 +10,7 @@
 #include <tensorpipe/benchmark/channel_registry.h>
 
 #include <tensorpipe/tensorpipe.h>
+#include <tensorpipe/tensorpipe_npu.h>
 
 TP_DEFINE_SHARED_REGISTRY(
     TensorpipeChannelRegistry,
@@ -48,6 +49,16 @@ std::shared_ptr<tensorpipe::channel::Context> makeXthChannel() {
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, xth, makeXthChannel);
+
+//NPU basic
+std::shared_ptr<tensorpipe::channel::Context> makeNPUBasicChannel() {
+  return tensorpipe::channel::npu_basic::create(
+  	tensorpipe::channel::basic::create());
+}
+
+TP_REGISTER_CREATOR(TensorpipeChannelRegistry, npu_basic, makeNPUBasicChannel);
+
+
 
 void validateChannelContext(
     std::shared_ptr<tensorpipe::channel::Context> context) {
