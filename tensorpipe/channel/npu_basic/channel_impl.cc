@@ -68,15 +68,17 @@ void ChannelImpl::NPUCopy(
     size_t length,
     int deviceIdx,
     aclrtStream stream,
-    std::function<void(const Error&)> callback) {
+    std::function<void(const Error&)> callback,
+    aclrtMemcpyKind copy_kind) {
   {
     NPUDeviceGuard guard(deviceIdx);
-	size_t destMax=sizeof(dst);
+    size_t destMax = length;
 	
-    TP_NPU_CHECK(aclrtMemcpyAsync(dst, destMax,src, length, ACL_MEMCPY_HOST_TO_HOST, stream));
+    TP_NPU_CHECK(aclrtMemcpyAsync(dst, destMax, src, length, copy_kind, stream));
+    aclrtSynchronizeStream(stream);
   }
 
-  npuLoop_.addCallback(deviceIdx, stream, std::move(callback));
+  callback(error_);
 }
 
 void ChannelImpl::sendImplFromLoop(
@@ -243,7 +245,8 @@ void ChannelImpl::allocateSendCpuBuffer(ChunkSendOpIter opIter) {
   TP_VLOG(5) << "Channel " << id_
              << " is allocating temporary memory for chunk #" << op.chunkId
              << " of " << op.numChunks << " for buffer #"
-             << op.bufferSequenceNumber;
+             << op.bufferSequenceNumber
+             << "op.deviceIdx = " << op.deviceIdx;
   Allocator& npuHostAllocator =
       context_->getNPUHostSendAllocator(op.deviceIdx);
   npuHostAllocator.alloc(
@@ -288,6 +291,8 @@ void ChannelImpl::copyFromNpuToCpu(ChunkSendOpIter opIter) {
   TP_VLOG(5) << "Channel " << id_ << " is copying chunk #" << op.chunkId
              << " of " << op.numChunks << " for buffer #"
              << op.bufferSequenceNumber << " from NPU device to CPU";
+  TP_VLOG(3) << "ChannelImpl::copyFromNpuToCpu Process ID: " << getpid() << " Thread ID: " << std::this_thread::get_id() << std::endl;
+
   NPUCopy(
       op.tmpBuffer.get(),
       op.devicePtr,
@@ -301,7 +306,8 @@ void ChannelImpl::copyFromNpuToCpu(ChunkSendOpIter opIter) {
                    << " from NPU device to CPU";
         opIter->doneCopyingFromNpuToCpu = true;
         impl.chunkSendOps_.advanceOperation(opIter);
-      }));
+      }),
+      ACL_MEMCPY_DEVICE_TO_HOST);
 }
 
 void ChannelImpl::sendCpuBuffer(ChunkSendOpIter opIter) {
@@ -562,14 +568,14 @@ void ChannelImpl::allocateRecvCpuBuffer(ChunkRecvOpIter opIter) {
 void ChannelImpl::receiveCpuBuffer(ChunkRecvOpIter opIter) {
   ChunkRecvOperation& op = *opIter;
 
-  TP_VLOG(6) << "Channel " << id_ << " is sending chunk #" << op.chunkId
+  TP_VLOG(6) << "Channel " << id_ << " is receiving chunk #" << op.chunkId
              << " of " << op.numChunks << " for buffer #"
              << op.bufferSequenceNumber << " through CPU channel";
   cpuChannel_->recv(
       CpuBuffer{.ptr = op.isCpuBuffer ? op.devicePtr : op.tmpBuffer.get()},
       op.length,
       callbackWrapper_([opIter](ChannelImpl& impl) {
-        TP_VLOG(6) << "Channel " << impl.id_ << " is done sending chunk #"
+        TP_VLOG(6) << "Channel " << impl.id_ << " is done receiving chunk #"
                    << opIter->chunkId << " of " << opIter->numChunks
                    << " for buffer #" << opIter->bufferSequenceNumber
                    << " through CPU channel";
@@ -597,7 +603,8 @@ void ChannelImpl::copyFromCpuToNpu(ChunkRecvOpIter opIter) {
                    << " from CPU to NPU device";
         opIter->doneCopyingFromCpuToNpu = true;
         impl.chunkRecvOps_.advanceOperation(opIter);
-      }));
+      }),
+      ACL_MEMCPY_HOST_TO_DEVICE);
 }
 
 void ChannelImpl::callRecvCallback(ChunkRecvOpIter opIter) {

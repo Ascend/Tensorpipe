@@ -26,6 +26,7 @@ list(APPEND TP_SRCS
   common/fd.cc
   common/socket.cc
   common/system.cc
+  common/device_id.cc
   core/context.cc
   core/context_impl.cc
   core/error.cc
@@ -42,6 +43,7 @@ list(APPEND TP_PUBLIC_HDRS
   common/buffer.h
   common/cpu_buffer.h
   common/device.h
+  common/device_id.h
   common/error.h
   common/optional.h
   core/context.h

@@ -100,7 +100,7 @@ void NPULoop::addCallback(
   auto npuCallback =
       std::make_unique<NPUCallback>(*this, std::move(callback));
   NPUDeviceGuard guard(device);
-  //TP_NPU_CHECK(npuStreamAddCallback(stream, runNPUCallback, NPUCallback.release(), 0));
+  //TP_NPU_CHECK(npuStreamAddCallback(stream, runNPUCallback, npuCallback.release(), 0));
 }
 
 void  NPULoop::runNPUCallback(

@@ -79,7 +79,6 @@ class NPULib {
     // If the driver doesn't find any devices it fails to init (beats me why)
     // but we must support this case, by disabling the channels, rather than
     // throwing. Hence we treat it as if we couldn't find the driver.
-    TP_NPU_LIB_CHECK(lib, aclInit(nullptr));
     return std::make_tuple(Error::kSuccess, std::move(lib));
   }
 
