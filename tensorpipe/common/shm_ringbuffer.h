@@ -13,7 +13,7 @@
 #include <tensorpipe/common/ringbuffer.h>
 #include <tensorpipe/common/shm_segment.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 /// Creates ringbuffer on shared memory.
 ///
@@ -86,4 +86,4 @@ loadShmRingBuffer(Fd headerFd, Fd dataFd) {
       RingBuffer<NumRoles>(header, data));
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -16,7 +16,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 // Same process produces and consumes share memory through different mappings.
 TEST(ShmSegment, SameProducerConsumer_Scalar) {

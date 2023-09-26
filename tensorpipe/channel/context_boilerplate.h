@@ -18,7 +18,7 @@
 #include <tensorpipe/channel/context.h>
 #include <tensorpipe/channel/context_impl_boilerplate.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 template <typename TCtx, typename TChan>
@@ -150,4 +150,4 @@ ContextBoilerplate<TCtx, TChan>::~ContextBoilerplate() {
 }
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

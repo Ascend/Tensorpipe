@@ -27,7 +27,7 @@
 #include <thread>
 #include <unistd.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 namespace {
 
@@ -1320,4 +1320,4 @@ bool PipeImpl::pendingRegistrations() {
   return false;
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

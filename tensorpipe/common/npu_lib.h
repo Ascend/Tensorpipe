@@ -29,7 +29,7 @@
 	} while (false)
 
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class NoDevicesError final : public BaseError {
  public:
@@ -85,5 +85,5 @@ class NPULib {
 };
 
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

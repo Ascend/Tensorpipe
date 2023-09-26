@@ -16,7 +16,7 @@
 #include <tensorpipe/common/buffer.h>
 #include <tensorpipe/common/optional.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Messages consist of a primary buffer and zero or more separate
 // buffers. The primary buffer is always a host-side memory region that
@@ -42,7 +42,7 @@ class Message final {
   std::vector<Payload> payloads;
 
   struct Tensor {
-    tensorpipe::Buffer buffer;
+    tensorpipe_npu::Buffer buffer;
     size_t length{0};
 
     // Users may optionally specify the target device, on which the receiver
@@ -97,9 +97,9 @@ class Allocation final {
   std::vector<Payload> payloads;
 
   struct Tensor {
-    tensorpipe::Buffer buffer;
+    tensorpipe_npu::Buffer buffer;
   };
   std::vector<Tensor> tensors;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

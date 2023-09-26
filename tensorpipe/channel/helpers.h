@@ -15,7 +15,7 @@
 
 #include <tensorpipe/common/nop.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 std::string saveDescriptor(const AbstractNopHolder& object);
@@ -23,4 +23,4 @@ std::string saveDescriptor(const AbstractNopHolder& object);
 void loadDescriptor(AbstractNopHolder& object, const std::string& in);
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

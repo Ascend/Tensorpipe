@@ -23,7 +23,7 @@
   if (unlikely(cond))             \
   TP_THROW_UV(err) << TP_STRINGIFY(cond) << ": " << uv_strerror(err)
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace uv {
 
@@ -384,4 +384,4 @@ inline std::string formatUvError(int status) {
 
 } // namespace uv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

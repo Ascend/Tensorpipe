@@ -14,9 +14,9 @@
 
 class UVTransportTestHelper : public TransportTestHelper {
  protected:
-  std::shared_ptr<tensorpipe::transport::Context> getContextInternal()
+  std::shared_ptr<tensorpipe_npu::transport::Context> getContextInternal()
       override {
-    return tensorpipe::transport::uv::create();
+    return tensorpipe_npu::transport::uv::create();
   }
 
  public:

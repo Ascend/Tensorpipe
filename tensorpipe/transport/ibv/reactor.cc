@@ -12,7 +12,7 @@
 #include <tensorpipe/common/system.h>
 #include <tensorpipe/transport/ibv/constants.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -222,4 +222,4 @@ void Reactor::postAck(IbvQueuePair& qp, AckInfo info) {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -15,7 +15,7 @@
 
 #include <tensorpipe/core/pipe_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 Pipe::Pipe(
     ConstructorToken /* unused */,
@@ -58,4 +58,4 @@ void Pipe::write(Message message, write_callback_fn fn) {
   impl_->write(std::move(message), std::move(fn));
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

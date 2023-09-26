@@ -20,7 +20,7 @@
 #include <tensorpipe/common/optional.h>
 #include <tensorpipe/common/queue.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace xth {
 
@@ -78,4 +78,4 @@ class ContextImpl final
 
 } // namespace xth
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

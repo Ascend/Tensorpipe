@@ -23,7 +23,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/system.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace xth {
 
@@ -125,4 +125,4 @@ void ContextImpl::handleCopyRequests() {
 
 } // namespace xth
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

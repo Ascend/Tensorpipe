@@ -17,7 +17,7 @@
 #include <tensorpipe/transport/connection.h>
 #include <tensorpipe/transport/connection_impl_boilerplate.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 
 template <typename TCtx, typename TList, typename TConn>
@@ -178,4 +178,4 @@ ConnectionBoilerplate<TCtx, TList, TConn>::~ConnectionBoilerplate() {
 }
 
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

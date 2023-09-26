@@ -22,7 +22,7 @@
 #include <tensorpipe/transport/error.h>
 #include <tensorpipe/transport/listener.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 
 template <typename TCtx, typename TList, typename TConn>
@@ -269,4 +269,4 @@ void ListenerImplBoilerplate<TCtx, TList, TConn>::handleError() {
 }
 
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

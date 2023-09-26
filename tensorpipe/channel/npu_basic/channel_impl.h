@@ -20,7 +20,7 @@
 #include <tensorpipe/common/npu_loop.h>
 #include <tensorpipe/common/state_machine.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -181,5 +181,5 @@ class ChannelImpl final
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

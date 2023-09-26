@@ -18,7 +18,7 @@
 
 #include <tensorpipe/channel/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class ContextImpl;
 class Listener;
@@ -94,4 +94,4 @@ class Context final {
   const std::shared_ptr<ContextImpl> impl_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

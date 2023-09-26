@@ -14,12 +14,12 @@
 
 TP_DEFINE_SHARED_REGISTRY(
     TensorpipeChannelRegistry,
-    tensorpipe::channel::Context);
+    tensorpipe_npu::channel::Context);
 
 // BASIC
 
-std::shared_ptr<tensorpipe::channel::Context> makeBasicChannel() {
-  return tensorpipe::channel::basic::create();
+std::shared_ptr<tensorpipe_npu::channel::Context> makeBasicChannel() {
+  return tensorpipe_npu::channel::basic::create();
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, basic, makeBasicChannel);
@@ -27,8 +27,8 @@ TP_REGISTER_CREATOR(TensorpipeChannelRegistry, basic, makeBasicChannel);
 // CMA
 
 #if TENSORPIPE_HAS_CMA_CHANNEL
-std::shared_ptr<tensorpipe::channel::Context> makeCmaChannel() {
-  return tensorpipe::channel::cma::create();
+std::shared_ptr<tensorpipe_npu::channel::Context> makeCmaChannel() {
+  return tensorpipe_npu::channel::cma::create();
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, cma, makeCmaChannel);
@@ -36,7 +36,7 @@ TP_REGISTER_CREATOR(TensorpipeChannelRegistry, cma, makeCmaChannel);
 
 // MPT
 
-std::shared_ptr<tensorpipe::channel::Context> makeMptChannel() {
+std::shared_ptr<tensorpipe_npu::channel::Context> makeMptChannel() {
   throw std::runtime_error("mtp channel requires arguments");
 }
 
@@ -44,16 +44,16 @@ TP_REGISTER_CREATOR(TensorpipeChannelRegistry, mpt, makeMptChannel);
 
 // XTH
 
-std::shared_ptr<tensorpipe::channel::Context> makeXthChannel() {
-  return tensorpipe::channel::xth::create();
+std::shared_ptr<tensorpipe_npu::channel::Context> makeXthChannel() {
+  return tensorpipe_npu::channel::xth::create();
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, xth, makeXthChannel);
 
 //NPU basic
-std::shared_ptr<tensorpipe::channel::Context> makeNPUBasicChannel() {
-  return tensorpipe::channel::npu_basic::create(
-  	tensorpipe::channel::basic::create());
+std::shared_ptr<tensorpipe_npu::channel::Context> makeNPUBasicChannel() {
+  return tensorpipe_npu::channel::npu_basic::create(
+  	tensorpipe_npu::channel::basic::create());
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, npu_basic, makeNPUBasicChannel);
@@ -61,7 +61,7 @@ TP_REGISTER_CREATOR(TensorpipeChannelRegistry, npu_basic, makeNPUBasicChannel);
 
 
 void validateChannelContext(
-    std::shared_ptr<tensorpipe::channel::Context> context) {
+    std::shared_ptr<tensorpipe_npu::channel::Context> context) {
   if (!context) {
     auto keys = TensorpipeChannelRegistry().keys();
     std::cout

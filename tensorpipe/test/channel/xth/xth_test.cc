@@ -14,9 +14,9 @@ namespace {
 
 class XthChannelTestHelper : public CpuChannelTestHelper {
  protected:
-  std::shared_ptr<tensorpipe::channel::Context> makeContextInternal(
+  std::shared_ptr<tensorpipe_npu::channel::Context> makeContextInternal(
       std::string id) override {
-    auto context = tensorpipe::channel::xth::create();
+    auto context = tensorpipe_npu::channel::xth::create();
     context->setId(std::move(id));
     return context;
   }

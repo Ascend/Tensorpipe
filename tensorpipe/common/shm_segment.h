@@ -24,7 +24,7 @@
 // interprocess.
 //
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class ShmSegment {
   ShmSegment(Fd fd, MmappedPtr ptr);
@@ -180,4 +180,4 @@ class ShmSegment {
   MmappedPtr ptr_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

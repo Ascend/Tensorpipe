@@ -23,7 +23,7 @@
 #include <tensorpipe/transport/ibv/context_impl.h>
 #include <tensorpipe/transport/ibv/sockaddr.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -155,4 +155,4 @@ void ListenerImpl::handleEventsFromLoop(int events) {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

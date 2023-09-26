@@ -26,7 +26,7 @@
 #include <tensorpipe/common/device_id.h>
 #include <third_party/acl/inc/acl/acl_rt.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Dealing with thread-safety using per-object mutexes is prone to deadlocks
 // because of reentrant calls (both "upward", when invoking a callback that
@@ -282,4 +282,4 @@ class EventLoopDeferredExecutor : public virtual DeferredExecutor {
   std::vector<std::function<void()>> fns_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

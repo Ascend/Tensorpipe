@@ -22,7 +22,7 @@
 #include <tensorpipe/common/optional.h>
 #include <tensorpipe/core/message.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 struct SpontaneousConnection {
   std::string contextName;
@@ -80,4 +80,4 @@ struct DescriptorReply {
 
 using Packet = nop::Variant<SpontaneousConnection, RequestedConnection>;
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

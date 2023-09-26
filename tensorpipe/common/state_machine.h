@@ -13,7 +13,7 @@
 #include <deque>
 #include <utility>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 template <typename TSubject, typename TOp>
 class OpsStateMachine {
@@ -146,4 +146,4 @@ class OpsStateMachine {
   std::deque<TOp> ops_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

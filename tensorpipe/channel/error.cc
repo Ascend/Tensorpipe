@@ -12,7 +12,7 @@
 #include <cstring>
 #include <sstream>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 std::string ContextClosedError::what() const {
@@ -28,4 +28,4 @@ std::string ContextNotViableError::what() const {
 }
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -41,8 +41,8 @@ class NPUDataWrapper : public DataWrapper {
     }
   }
 
-  tensorpipe::Buffer buffer() const override {
-    return tensorpipe::NPUBuffer{
+  tensorpipe_npu::Buffer buffer() const override {
+    return tensorpipe_npu::NPUBuffer{
         .ptr = npuPtr_,
         .stream = stream_,
     };

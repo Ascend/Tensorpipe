@@ -43,7 +43,7 @@
 //      happen is defered to the channel implementation. We assume the
 //      channel is usable from the moment it is constructed.
 //
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 using TSendCallback = std::function<void(const Error&)>;
@@ -73,4 +73,4 @@ class Channel {
 };
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

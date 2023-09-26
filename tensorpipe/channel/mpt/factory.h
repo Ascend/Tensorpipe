@@ -15,7 +15,7 @@
 #include <tensorpipe/channel/context.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace mpt {
 
@@ -25,4 +25,4 @@ std::shared_ptr<Context> create(
 
 } // namespace mpt
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

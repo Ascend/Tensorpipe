@@ -13,7 +13,7 @@
 #include <tensorpipe/channel/npu_basic/channel_impl.h>
 #include <tensorpipe/channel/npu_basic/context_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -23,4 +23,4 @@ std::shared_ptr<Context> create(std::shared_ptr<Context> cpuContext) {
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

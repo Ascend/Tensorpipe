@@ -17,7 +17,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 TEST(Listener, ClosingAbortsOperations) {
   auto context = std::make_shared<Context>();

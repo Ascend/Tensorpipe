@@ -13,7 +13,7 @@
 
 #include <tensorpipe/common/error.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 class ContextClosedError final : public BaseError {
@@ -38,4 +38,4 @@ class ContextNotViableError final : public BaseError {
 };
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -17,7 +17,7 @@
 #include <tensorpipe/common/buffer.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 enum class Endpoint : bool { kConnect, kListen };
@@ -106,4 +106,4 @@ class Context {
 };
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

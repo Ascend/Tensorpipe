@@ -11,8 +11,8 @@
 
 #include <numeric>
 
-using namespace tensorpipe;
-using namespace tensorpipe::channel;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::channel;
 
 // Implement this in a subprocess as in some cases it may initialize NPU and
 // thus would otherwise "pollute" the parent process.

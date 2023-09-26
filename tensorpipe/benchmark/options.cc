@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace benchmark {
 
 static void usage(int status, const char* argv0) {
@@ -175,4 +175,4 @@ struct Options parseOptions(int argc, char** argv) {
 }
 
 } // namespace benchmark
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

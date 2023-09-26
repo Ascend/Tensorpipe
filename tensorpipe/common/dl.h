@@ -23,7 +23,7 @@
 #include <tensorpipe/common/error.h>
 #include <tensorpipe/common/error_macros.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class DlError final : public BaseError {
  public:
@@ -101,4 +101,4 @@ class DynamicLibraryHandle {
   std::unique_ptr<void, Deleter> ptr_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

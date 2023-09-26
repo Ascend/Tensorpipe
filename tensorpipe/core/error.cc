@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 std::string LogicError::what() const {
   std::ostringstream ss;
@@ -31,4 +31,4 @@ std::string PipeClosedError::what() const {
   return "pipe closed";
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -20,7 +20,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 template <typename TCtx, typename TChan>
@@ -110,7 +110,7 @@ class ContextImplBoilerplate : public virtual DeferredExecutor,
 
   // For some odd reason it seems we need to use a qualified name here...
   template <typename T>
-  friend class tensorpipe::CallbackWrapper;
+  friend class tensorpipe_npu::CallbackWrapper;
 };
 
 template <typename TCtx, typename TChan>
@@ -265,4 +265,4 @@ void ContextImplBoilerplate<TCtx, TChan>::join() {
 }
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

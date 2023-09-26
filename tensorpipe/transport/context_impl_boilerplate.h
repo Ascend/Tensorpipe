@@ -19,7 +19,7 @@
 #include <tensorpipe/transport/connection_boilerplate.h>
 #include <tensorpipe/transport/listener_boilerplate.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 
 template <typename TCtx, typename TList, typename TConn>
@@ -106,7 +106,7 @@ class ContextImplBoilerplate : public virtual DeferredExecutor,
 
   // For some odd reason it seems we need to use a qualified name here...
   template <typename T>
-  friend class tensorpipe::CallbackWrapper;
+  friend class tensorpipe_npu::CallbackWrapper;
 };
 
 template <typename TCtx, typename TList, typename TConn>
@@ -279,4 +279,4 @@ void ContextImplBoilerplate<TCtx, TList, TConn>::join() {
 }
 
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

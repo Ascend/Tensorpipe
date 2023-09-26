@@ -17,7 +17,7 @@
 #include <tensorpipe/common/cpu_buffer.h>
 #include <tensorpipe/common/device.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class Buffer {
   class AbstractBufferWrapper {
@@ -98,7 +98,7 @@ class Buffer {
     BufferWrapper<TBuffer>* wrapperPtr =
         dynamic_cast<BufferWrapper<TBuffer>*>(ptr());
     if (wrapperPtr == nullptr) {
-      throw std::runtime_error("Invalid unwrapping of tensorpipe::Buffer");
+      throw std::runtime_error("Invalid unwrapping of tensorpipe_npu::Buffer");
     }
     return wrapperPtr->buffer;
   }
@@ -108,7 +108,7 @@ class Buffer {
     const BufferWrapper<TBuffer>* wrapperPtr =
         dynamic_cast<const BufferWrapper<TBuffer>*>(ptr());
     if (wrapperPtr == nullptr) {
-      throw std::runtime_error("Invalid unwrapping of tensorpipe::Buffer");
+      throw std::runtime_error("Invalid unwrapping of tensorpipe_npu::Buffer");
     }
     return wrapperPtr->buffer;
   }
@@ -133,4 +133,4 @@ class Buffer {
   }
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

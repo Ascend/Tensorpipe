@@ -22,8 +22,8 @@ class CpuDataWrapper : public DataWrapper {
 
   explicit CpuDataWrapper(std::vector<uint8_t> v) : vector_(v) {}
 
-  tensorpipe::Buffer buffer() const override {
-    return tensorpipe::CpuBuffer{.ptr = const_cast<uint8_t*>(vector_.data())};
+  tensorpipe_npu::Buffer buffer() const override {
+    return tensorpipe_npu::CpuBuffer{.ptr = const_cast<uint8_t*>(vector_.data())};
   }
 
   size_t bufferLength() const override {

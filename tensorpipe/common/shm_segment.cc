@@ -24,7 +24,7 @@
 #include <thread>
 #include <tuple>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 namespace {
 
@@ -166,4 +166,4 @@ std::tuple<Error, ShmSegment> ShmSegment::access(Fd fd) {
       Error::kSuccess, ShmSegment(std::move(fd), std::move(ptr)));
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

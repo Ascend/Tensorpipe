@@ -21,7 +21,7 @@
 #define SOCK_NONBLOCK 0
 #endif // SOCK_NONBLOCK
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 std::tuple<Error, Socket> Socket::createForFamily(sa_family_t aiFamily) {
   auto rv = socket(aiFamily, SOCK_STREAM | SOCK_NONBLOCK, 0);
@@ -132,4 +132,4 @@ std::tuple<Error, struct sockaddr_storage, socklen_t> Socket::getSockName()
   return std::make_tuple(Error::kSuccess, addr, addrlen);
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

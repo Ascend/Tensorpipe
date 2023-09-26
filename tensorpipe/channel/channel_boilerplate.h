@@ -18,7 +18,7 @@
 #include <tensorpipe/channel/channel.h>
 #include <tensorpipe/channel/channel_impl_boilerplate.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 
 template <typename TCtx, typename TChan>
@@ -133,4 +133,4 @@ ChannelBoilerplate<TCtx, TChan>::~ChannelBoilerplate() {
 }
 
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

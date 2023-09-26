@@ -16,7 +16,7 @@
 #include <tensorpipe/common/state_machine.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace xth {
 
@@ -118,4 +118,4 @@ class ChannelImpl final
 
 } // namespace xth
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

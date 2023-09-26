@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 /**
  * @brief A template class that allows one to register classes by keys.
@@ -132,16 +132,16 @@ class Registerer {
 // issue. Refer to this link for reference:
 // https://isocpp.org/wiki/faq/ctors#static-init-order-on-first-use
 #define TP_DEFINE_TYPED_REGISTRY(RegistryName, ObjectType, PtrType, ...)     \
-  tensorpipe::Registry<PtrType<ObjectType>, ##__VA_ARGS__>& RegistryName() { \
-    static tensorpipe::Registry<PtrType<ObjectType>, ##__VA_ARGS__>*         \
+  tensorpipe_npu::Registry<PtrType<ObjectType>, ##__VA_ARGS__>& RegistryName() { \
+    static tensorpipe_npu::Registry<PtrType<ObjectType>, ##__VA_ARGS__>*         \
         registry =                                                           \
-            new tensorpipe::Registry<PtrType<ObjectType>, ##__VA_ARGS__>();  \
+            new tensorpipe_npu::Registry<PtrType<ObjectType>, ##__VA_ARGS__>();  \
     return *registry;                                                        \
   }
 
 #define TP_DECLARE_TYPED_REGISTRY(RegistryName, ObjectType, PtrType, ...)   \
-  tensorpipe::Registry<PtrType<ObjectType>, ##__VA_ARGS__>& RegistryName(); \
-  typedef tensorpipe::Registerer<PtrType<ObjectType>, ##__VA_ARGS__>        \
+  tensorpipe_npu::Registry<PtrType<ObjectType>, ##__VA_ARGS__>& RegistryName(); \
+  typedef tensorpipe_npu::Registerer<PtrType<ObjectType>, ##__VA_ARGS__>        \
       Registerer##RegistryName
 
 #define TP_DEFINE_SHARED_REGISTRY(RegistryName, ObjectType, ...) \
@@ -159,4 +159,4 @@ class Registerer {
 #define TP_REGISTER_CREATOR(RegistryName, key, ...) \
   TP_REGISTER_TYPED_CREATOR(RegistryName, #key, __VA_ARGS__)
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -15,7 +15,7 @@
 #include <tensorpipe/transport/shm/listener_impl.h>
 #include <tensorpipe/transport/shm/reactor.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -116,4 +116,4 @@ std::tuple<int, int> ContextImpl::reactorFds() {
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

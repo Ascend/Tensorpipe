@@ -130,12 +130,12 @@ int main(int argc, char* argv[]) {
   rv = ::close(fd);
   TP_THROW_SYSTEM_IF(rv < 0, errno);
 
-  auto ctx = tensorpipe::channel::cma::create();
+  auto ctx = tensorpipe_npu::channel::cma::create();
   TP_LOG_INFO() << "The CMA context's viability is: " << std::boolalpha
                 << ctx->isViable();
   std::string descriptor;
   if (ctx->isViable()) {
-    auto cpuDevice = tensorpipe::Device{tensorpipe::kCpuDeviceType, 0};
+    auto cpuDevice = tensorpipe_npu::Device{tensorpipe_npu::kCpuDeviceType, 0};
     auto deviceDescriptors = ctx->deviceDescriptors();
     auto iter = deviceDescriptors.find(cpuDevice);
     TP_DCHECK(iter != deviceDescriptors.end());

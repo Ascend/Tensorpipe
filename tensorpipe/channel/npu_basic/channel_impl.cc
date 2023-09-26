@@ -31,7 +31,7 @@ std::map<int64_t, std::string> COPY_PARAS_MAP{
 };
 
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -640,5 +640,5 @@ void ChannelImpl::handleErrorImpl() {
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

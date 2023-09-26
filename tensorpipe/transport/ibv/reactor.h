@@ -25,7 +25,7 @@
 #include <tensorpipe/common/optional.h>
 #include <tensorpipe/transport/ibv/constants.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -140,4 +140,4 @@ class Reactor final : public BusyPollingLoop {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

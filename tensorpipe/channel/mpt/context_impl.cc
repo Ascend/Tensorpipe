@@ -22,7 +22,7 @@
 #include <tensorpipe/transport/context.h>
 #include <tensorpipe/transport/listener.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace mpt {
 
@@ -250,4 +250,4 @@ void ContextImpl::deferToLoop(std::function<void()> fn) {
 
 } // namespace mpt
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

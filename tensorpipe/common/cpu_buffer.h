@@ -11,7 +11,7 @@
 
 #include <tensorpipe/common/device.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 struct CpuBuffer {
   void* ptr{nullptr};
@@ -21,4 +21,4 @@ struct CpuBuffer {
   }
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -18,9 +18,9 @@
 #include <tensorpipe/transport/connection.h>
 #include <tensorpipe/transport/listener.h>
 
-using namespace tensorpipe;
-using namespace tensorpipe::benchmark;
-using namespace tensorpipe::transport;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::benchmark;
+using namespace tensorpipe_npu::transport;
 
 struct Data {
   std::unique_ptr<uint8_t[]> expected;

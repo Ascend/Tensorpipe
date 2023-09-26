@@ -14,7 +14,7 @@
 
 #include <tensorpipe/channel/basic/channel_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace basic {
 
@@ -50,4 +50,4 @@ void ContextImpl::deferToLoop(std::function<void()> fn) {
 
 } // namespace basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

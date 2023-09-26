@@ -10,8 +10,8 @@
 
 #include <gmock/gmock.h>
 
-using namespace tensorpipe;
-using namespace tensorpipe::channel;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::channel;
 
 
 class ReceiverWaitsForStartEventTest: public ClientServerChannelTestCase
@@ -36,14 +36,14 @@ override
 	TP_NPU_CHECK(aclrtMemsetAsync(ptr, kSize, 0x42, kSize, sendStream));
 
 	// Perform send and wait for completion.
-	auto			sendPromise = std::make_shared < std::promise < tensorpipe::Error >> ();
+	auto			sendPromise = std::make_shared < std::promise < tensorpipe_npu::Error >> ();
 	auto			sendFuture = sendPromise->get_future();
 
 	channel->send(NPUBuffer {.ptr = ptr, 
 		.stream 		= sendStream, 
 		}, 
 		kSize, 
-		[sendPromise { std::move(sendPromise) }] (const tensorpipe::Error & error) { sendPromise->set_value(error);
+		[sendPromise { std::move(sendPromise) }] (const tensorpipe_npu::Error & error) { sendPromise->set_value(error);
 		 });
 
 	Error			sendError = sendFuture.get();
@@ -68,14 +68,14 @@ override
 	TP_NPU_CHECK(aclrtMalloc(&ptr, kSize, ACL_MEM_MALLOC_HUGE_FIRST));
 
 	// Perform recv and wait for completion.
-	auto			recvPromise = std::make_shared < std::promise < tensorpipe::Error >> ();
+	auto			recvPromise = std::make_shared < std::promise < tensorpipe_npu::Error >> ();
 	auto			recvFuture = recvPromise->get_future();
 
 	channel->recv(NPUBuffer {.ptr = ptr, 
 		.stream 		= recvStream, 
 		}, 
 		kSize, 
-		[recvPromise { std::move(recvPromise) }] (const tensorpipe::Error & error) { recvPromise->set_value(error);
+		[recvPromise { std::move(recvPromise) }] (const tensorpipe_npu::Error & error) { recvPromise->set_value(error);
 		 });
 
 	Error			recvError = recvFuture.get();

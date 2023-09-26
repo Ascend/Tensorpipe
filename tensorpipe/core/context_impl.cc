@@ -31,7 +31,7 @@
 #include <tensorpipe/core/pipe_impl.h>
 #include <tensorpipe/transport/connection.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 namespace {
 
@@ -289,4 +289,4 @@ void ContextImpl::join() {
   }
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

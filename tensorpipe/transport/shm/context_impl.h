@@ -17,7 +17,7 @@
 #include <tensorpipe/transport/context_impl_boilerplate.h>
 #include <tensorpipe/transport/shm/reactor.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -63,4 +63,4 @@ class ContextImpl final
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

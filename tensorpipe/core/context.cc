@@ -16,7 +16,7 @@
 
 #include <tensorpipe/core/context_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 Context::Context(ContextOptions opts)
     : impl_(std::make_shared<ContextImpl>(std::move(opts))) {
@@ -60,4 +60,4 @@ Context::~Context() {
   join();
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

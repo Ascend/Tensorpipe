@@ -24,7 +24,7 @@
 #include <tensorpipe/transport/shm/reactor.h>
 #include <tensorpipe/transport/shm/sockaddr.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -147,4 +147,4 @@ class ConnectionImpl final : public ConnectionImplBoilerplate<
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

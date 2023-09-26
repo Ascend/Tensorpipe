@@ -12,7 +12,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/error_macros.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 Allocator::Allocator(uint8_t* data, size_t numChunks, size_t chunkSize)
     : numChunks_(numChunks),
@@ -79,4 +79,4 @@ void Allocator::releaseChunk(uint8_t* ptr) {
   processAllocations();
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

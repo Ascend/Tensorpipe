@@ -19,7 +19,7 @@
 #include <tensorpipe/common/device.h>
 #include <tensorpipe/common/optional.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -79,5 +79,5 @@ class ContextImpl final
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

@@ -17,7 +17,7 @@
 
 #include <tensorpipe/core/listener_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 Listener::Listener(
     ConstructorToken /* unused */,
@@ -55,4 +55,4 @@ std::string Listener::url(const std::string& transport) const {
   return impl_->url(transport);
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

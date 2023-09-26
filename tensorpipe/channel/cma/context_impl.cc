@@ -27,7 +27,7 @@
 #include <tensorpipe/common/strings.h>
 #include <tensorpipe/common/system.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace cma {
 
@@ -380,4 +380,4 @@ void ContextImpl::handleCopyRequests() {
 
 } // namespace cma
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

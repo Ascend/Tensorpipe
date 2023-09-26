@@ -17,7 +17,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/optional.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Libnop makes heavy use of templates, whereas TensorPipe is designed around
 // polymorphism (abstract interfaces and concrete derived classes). The two
@@ -241,16 +241,16 @@ class NopHolder : public AbstractNopHolder {
   T object_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 
 namespace nop {
 
-// The `nop::Encoding` specialization for `tensorpipe::optional` was inspired
+// The `nop::Encoding` specialization for `tensorpipe_npu::optional` was inspired
 // by that of `nop::Optional`, available here:
 // https://github.com/google/libnop/blob/master/include/nop/base/optional.h
 template <typename T>
-struct Encoding<tensorpipe::optional<T>> : EncodingIO<tensorpipe::optional<T>> {
-  using Type = tensorpipe::optional<T>;
+struct Encoding<tensorpipe_npu::optional<T>> : EncodingIO<tensorpipe_npu::optional<T>> {
+  using Type = tensorpipe_npu::optional<T>;
 
   // NOLINTNEXTLINE(readability-identifier-naming)
   static constexpr EncodingByte Prefix(const Type& value) {

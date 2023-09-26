@@ -3,7 +3,7 @@
 #include "device_id.h"
 #include "defs.h"
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 int gDeviceId;
 void setDeviceId(int deviceId){

@@ -20,7 +20,7 @@
 #include <tensorpipe/transport/uv/sockaddr.h>
 #include <tensorpipe/transport/uv/uv.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace uv {
 
@@ -77,4 +77,4 @@ class ConnectionImpl final : public ConnectionImplBoilerplate<
 
 } // namespace uv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

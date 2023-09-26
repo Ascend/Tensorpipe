@@ -13,7 +13,7 @@
 #include <deque>
 #include <mutex>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 template <typename T>
 class Queue {
@@ -47,4 +47,4 @@ class Queue {
   std::deque<T> items_;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

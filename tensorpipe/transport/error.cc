@@ -9,7 +9,7 @@
 
 #include <tensorpipe/transport/error.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 
 std::string ContextClosedError::what() const {
@@ -29,4 +29,4 @@ std::string ContextNotViableError::what() const {
 }
 
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

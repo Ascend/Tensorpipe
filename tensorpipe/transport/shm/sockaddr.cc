@@ -17,7 +17,7 @@
 
 #include <tensorpipe/common/defs.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -70,4 +70,4 @@ std::string Sockaddr::str() const {
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

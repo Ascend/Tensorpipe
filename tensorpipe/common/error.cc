@@ -14,7 +14,7 @@
 
 #include <tensorpipe/common/defs.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 const Error Error::kSuccess = Error();
 
@@ -54,4 +54,4 @@ std::string EOFError::what() const {
   return "eof";
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

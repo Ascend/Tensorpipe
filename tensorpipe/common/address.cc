@@ -11,7 +11,7 @@
 
 #include <tensorpipe/common/defs.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 std::tuple<std::string, std::string> splitSchemeOfURL(const std::string& url) {
   std::string::size_type endOfScheme = url.find("://");
@@ -22,4 +22,4 @@ std::tuple<std::string, std::string> splitSchemeOfURL(const std::string& url) {
       url.substr(0, endOfScheme), url.substr(endOfScheme + 3));
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

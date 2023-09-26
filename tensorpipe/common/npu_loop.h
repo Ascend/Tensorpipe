@@ -24,7 +24,7 @@
 #include "third_party/acl/inc/acl/acl.h"
 
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class NPULoop {
   struct Operation {
@@ -65,4 +65,4 @@ class NPULoop {
       void* callbackPtr);
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

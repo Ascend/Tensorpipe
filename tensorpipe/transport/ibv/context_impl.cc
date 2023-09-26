@@ -12,7 +12,7 @@
 #include <tensorpipe/transport/ibv/connection_impl.h>
 #include <tensorpipe/transport/ibv/listener_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -106,4 +106,4 @@ Reactor& ContextImpl::getReactor() {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

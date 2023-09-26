@@ -13,7 +13,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/device_id.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 Device NPUBuffer::getDevice() const {
   static NPULib npuLib = []() {
@@ -29,5 +29,5 @@ Device NPUBuffer::getDevice() const {
   return Device{kNpuDeviceType, getDeviceId()};
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

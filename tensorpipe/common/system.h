@@ -20,7 +20,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/optional.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 //
 // TimeStamp is a 64 bit value representing
@@ -127,4 +127,4 @@ optional<std::string> getPermittedCapabilitiesID();
 // Set the name of the current thread, if possible. Use only for debugging.
 void setThreadName(std::string name);
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

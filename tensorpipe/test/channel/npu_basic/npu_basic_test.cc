@@ -17,11 +17,11 @@ namespace {
 
 class NPUBasicChannelTestHelper : public NPUChannelTestHelper {
  protected:
-  std::shared_ptr<tensorpipe::channel::Context> makeContextInternal(
+  std::shared_ptr<tensorpipe_npu::channel::Context> makeContextInternal(
       std::string id) override {
-    auto cpuContext = tensorpipe::channel::basic::create();
+    auto cpuContext = tensorpipe_npu::channel::basic::create();
     auto context =
-        tensorpipe::channel::npu_basic::create(std::move(cpuContext));
+        tensorpipe_npu::channel::npu_basic::create(std::move(cpuContext));
     context->setId(std::move(id));
     return context;
   }
@@ -44,12 +44,12 @@ class CannotCommunicateCpuToCpuTest : public ChannelTestCase {
     ProcessPeerGroup pg;
     pg.spawn(
         [&]() {
-          auto cpuContext = tensorpipe::channel::basic::create();
+          auto cpuContext = tensorpipe_npu::channel::basic::create();
           auto ctx =
-              tensorpipe::channel::npu_basic::create(std::move(cpuContext));
+              tensorpipe_npu::channel::npu_basic::create(std::move(cpuContext));
           auto deviceDescriptors = ctx->deviceDescriptors();
           auto it = deviceDescriptors.find(
-              tensorpipe::Device{tensorpipe::kCpuDeviceType, 0});
+              tensorpipe_npu::Device{tensorpipe_npu::kCpuDeviceType, 0});
           EXPECT_FALSE(it == deviceDescriptors.end());
           auto descriptor = it->second;
           EXPECT_FALSE(ctx->canCommunicateWithRemote(descriptor, descriptor));

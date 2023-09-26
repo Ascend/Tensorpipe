@@ -14,7 +14,7 @@
 
 TP_DECLARE_SHARED_REGISTRY(
     TensorpipeChannelRegistry,
-    tensorpipe::channel::Context);
+    tensorpipe_npu::channel::Context);
 
 void validateChannelContext(
-    std::shared_ptr<tensorpipe::channel::Context> context);
+    std::shared_ptr<tensorpipe_npu::channel::Context> context);

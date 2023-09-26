@@ -12,7 +12,7 @@
 #include <tensorpipe/common/shm_ringbuffer.h>
 #include <tensorpipe/common/system.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -157,4 +157,4 @@ void Reactor::Trigger::run(TToken token) {
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
