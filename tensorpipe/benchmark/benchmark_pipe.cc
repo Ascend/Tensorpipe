@@ -23,8 +23,8 @@
 #include <tensorpipe/core/listener.h>
 #include <tensorpipe/core/pipe.h>
 
-using namespace tensorpipe;
-using namespace tensorpipe::benchmark;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::benchmark;
 
 static constexpr int kNumWarmUpRounds = 5;
 

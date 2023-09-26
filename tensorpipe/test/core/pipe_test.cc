@@ -9,7 +9,7 @@
 
 #include <tensorpipe/test/core/pipe_test.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 class SimpleWriteReadTest : public ClientServerPipeTestCase {
   InlineMessage imessage_ = {

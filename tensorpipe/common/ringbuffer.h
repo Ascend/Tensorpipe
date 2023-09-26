@@ -41,7 +41,7 @@
 /// write data atomically at ringbuffer's tail.
 ///
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 ///
 /// RingBufferHeader contains the head, tail and other control information
@@ -175,4 +175,4 @@ class RingBuffer final {
   uint8_t* data_ = nullptr;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

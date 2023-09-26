@@ -26,7 +26,7 @@
 #include <tensorpipe/transport/shm/reactor.h>
 #include <tensorpipe/transport/shm/sockaddr.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -366,4 +366,4 @@ void ConnectionImpl::handleErrorImpl() {
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

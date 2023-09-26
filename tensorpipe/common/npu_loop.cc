@@ -12,7 +12,7 @@
 #include <tensorpipe/common/npu.h>
 #include <tensorpipe/common/system.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 namespace {
 
@@ -122,5 +122,5 @@ void  NPULoop::runNPUCallback(
   npuCallback.reset();
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

@@ -22,10 +22,10 @@
 
 namespace {
 
-tensorpipe::NPULib getNPULib() {
-  tensorpipe::Error error;
-  tensorpipe::NPULib npuLib;
-  std::tie(error, npuLib) = tensorpipe::NPULib::create();
+tensorpipe_npu::NPULib getNPULib() {
+  tensorpipe_npu::Error error;
+  tensorpipe_npu::NPULib npuLib;
+  std::tie(error, npuLib) = tensorpipe_npu::NPULib::create();
   EXPECT_FALSE(error) << error.what();
   return npuLib;
 }

@@ -17,7 +17,7 @@
 #include <tensorpipe/common/error.h>
 #include <tensorpipe/common/error_macros.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class MmappedPtr {
   MmappedPtr(uint8_t* ptr, size_t length) {
@@ -71,4 +71,4 @@ class MmappedPtr {
   std::unique_ptr<uint8_t[], Deleter> ptr_{nullptr, Deleter{}};
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

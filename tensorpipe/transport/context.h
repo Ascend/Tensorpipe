@@ -12,7 +12,7 @@
 #include <memory>
 #include <string>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 
 class Connection;
@@ -76,4 +76,4 @@ class Context {
 };
 
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

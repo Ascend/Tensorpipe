@@ -17,7 +17,7 @@
 #include <tensorpipe/common/deferred_executor.h>
 #include <tensorpipe/common/system.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class BusyPollingLoop : public EventLoopDeferredExecutor {
  protected:
@@ -53,4 +53,4 @@ class BusyPollingLoop : public EventLoopDeferredExecutor {
   std::atomic<int64_t> deferredFunctionCount_{0};
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -13,7 +13,7 @@
 #include <tensorpipe/channel/xth/channel_impl.h>
 #include <tensorpipe/channel/xth/context_impl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace xth {
 
@@ -23,4 +23,4 @@ std::shared_ptr<Context> create() {
 
 } // namespace xth
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

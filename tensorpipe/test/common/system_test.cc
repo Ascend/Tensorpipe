@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 TEST(Pow2, isPow2) {
   for (uint64_t i = 0; i < 63; ++i) {

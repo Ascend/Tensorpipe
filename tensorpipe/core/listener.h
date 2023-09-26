@@ -17,7 +17,7 @@
 
 #include <tensorpipe/common/error.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class ContextImpl;
 class ListenerImpl;
@@ -94,4 +94,4 @@ class Listener final {
   friend ContextImpl;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

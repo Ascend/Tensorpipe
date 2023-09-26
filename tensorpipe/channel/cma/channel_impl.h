@@ -16,7 +16,7 @@
 #include <tensorpipe/common/state_machine.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace cma {
 
@@ -119,4 +119,4 @@ class ChannelImpl final
 
 } // namespace cma
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

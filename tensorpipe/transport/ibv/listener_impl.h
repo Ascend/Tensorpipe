@@ -22,7 +22,7 @@
 #include <tensorpipe/transport/ibv/sockaddr.h>
 #include <tensorpipe/transport/listener_impl_boilerplate.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -58,4 +58,4 @@ class ListenerImpl final
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -25,7 +25,7 @@
 #include <tensorpipe/common/ringbuffer_role.h>
 #include <tensorpipe/common/shm_segment.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace shm {
 
@@ -110,4 +110,4 @@ class Reactor final : public BusyPollingLoop {
 
 } // namespace shm
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

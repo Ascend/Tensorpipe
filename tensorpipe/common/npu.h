@@ -36,7 +36,7 @@
         << aclGetRecentErrMsg() << ")";            \
   } while (false)
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class NPUError final : public BaseError {
  public:
@@ -198,5 +198,5 @@ inline std::vector<Device> getNPUDevices(const NPULib& npuLib) {
   return result;
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

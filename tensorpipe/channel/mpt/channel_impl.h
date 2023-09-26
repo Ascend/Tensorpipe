@@ -20,7 +20,7 @@
 #include <tensorpipe/common/state_machine.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace mpt {
 
@@ -138,4 +138,4 @@ class ChannelImpl final
 
 } // namespace mpt
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

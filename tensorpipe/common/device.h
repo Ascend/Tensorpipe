@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 const std::string kCpuDeviceType{"cpu"};
 const std::string kNpuDeviceType{"npu"};
@@ -40,23 +40,23 @@ struct Device {
   }
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 
 namespace std {
 
 template <>
-struct hash<::tensorpipe::Device> {
-  size_t operator()(const ::tensorpipe::Device& device) const noexcept {
+struct hash<::tensorpipe_npu::Device> {
+  size_t operator()(const ::tensorpipe_npu::Device& device) const noexcept {
     return std::hash<std::string>{}(device.toString());
   }
 };
 
 template <>
-struct hash<std::pair<::tensorpipe::Device, ::tensorpipe::Device>> {
-  size_t operator()(const std::pair<::tensorpipe::Device, ::tensorpipe::Device>&
+struct hash<std::pair<::tensorpipe_npu::Device, ::tensorpipe_npu::Device>> {
+  size_t operator()(const std::pair<::tensorpipe_npu::Device, ::tensorpipe_npu::Device>&
                         p) const noexcept {
-    size_t h1 = std::hash<::tensorpipe::Device>{}(p.first);
-    size_t h2 = std::hash<::tensorpipe::Device>{}(p.second);
+    size_t h1 = std::hash<::tensorpipe_npu::Device>{}(p.first);
+    size_t h2 = std::hash<::tensorpipe_npu::Device>{}(p.second);
     // Shifting one hash to avoid collisions between (a, b) and (b, a).
     return h1 ^ (h2 << 1);
   }

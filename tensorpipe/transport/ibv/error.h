@@ -13,7 +13,7 @@
 
 #include <tensorpipe/transport/error.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -46,4 +46,4 @@ class NoAddrFoundError final : public BaseError {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

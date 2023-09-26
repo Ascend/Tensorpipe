@@ -16,7 +16,7 @@
 
 #include <tensorpipe/common/ringbuffer.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 ///
 /// Role of a RingBuffer.
@@ -283,4 +283,4 @@ class RingBufferRole {
   bool inTx_{false};
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

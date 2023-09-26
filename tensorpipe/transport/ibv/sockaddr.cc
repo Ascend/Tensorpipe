@@ -19,7 +19,7 @@
 
 #include <tensorpipe/common/defs.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -140,4 +140,4 @@ std::string Sockaddr::str() const {
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

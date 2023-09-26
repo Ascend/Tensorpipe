@@ -11,7 +11,7 @@
 
 #include <tensorpipe/transport/uv/uv.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace uv {
 
@@ -25,4 +25,4 @@ std::string NoAddrFoundError::what() const {
 
 } // namespace uv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

@@ -13,7 +13,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 struct TestData {
   uint16_t a;

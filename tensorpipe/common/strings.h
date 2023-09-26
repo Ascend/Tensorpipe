@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 inline std::string joinStrs(const std::vector<std::string>& strs) {
   if (strs.empty()) {
@@ -71,4 +71,4 @@ inline bool isValidUuid(const std::string& uuid) {
   return true;
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

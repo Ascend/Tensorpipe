@@ -20,7 +20,7 @@
 #include <tensorpipe/common/nop.h>
 #include <tensorpipe/common/ringbuffer_role.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Reads happen only if the user supplied a callback (and optionally
 // a destination buffer). The callback is run from the event loop
@@ -312,4 +312,4 @@ void RingbufferWriteOperation::handleError(const Error& error) {
   fn_(error);
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

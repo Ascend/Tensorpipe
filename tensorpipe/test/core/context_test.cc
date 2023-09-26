@@ -21,7 +21,7 @@
 #include <tensorpipe/tensorpipe_npu.h>
 #include <tensorpipe/common/npu.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 namespace {
 

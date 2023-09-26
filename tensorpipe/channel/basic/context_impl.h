@@ -15,7 +15,7 @@
 #include <tensorpipe/common/deferred_executor.h>
 #include <tensorpipe/common/device.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace basic {
 
@@ -48,4 +48,4 @@ class ContextImpl final
 
 } // namespace basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

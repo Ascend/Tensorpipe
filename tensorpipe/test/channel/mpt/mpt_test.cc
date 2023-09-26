@@ -17,17 +17,17 @@ namespace {
 
 class MptChannelTestHelper : public CpuChannelTestHelper {
  protected:
-  std::shared_ptr<tensorpipe::channel::Context> makeContextInternal(
+  std::shared_ptr<tensorpipe_npu::channel::Context> makeContextInternal(
       std::string id) override {
-    std::vector<std::shared_ptr<tensorpipe::transport::Context>> contexts = {
-        tensorpipe::transport::uv::create(),
-        tensorpipe::transport::uv::create(),
-        tensorpipe::transport::uv::create()};
-    std::vector<std::shared_ptr<tensorpipe::transport::Listener>> listeners = {
+    std::vector<std::shared_ptr<tensorpipe_npu::transport::Context>> contexts = {
+        tensorpipe_npu::transport::uv::create(),
+        tensorpipe_npu::transport::uv::create(),
+        tensorpipe_npu::transport::uv::create()};
+    std::vector<std::shared_ptr<tensorpipe_npu::transport::Listener>> listeners = {
         contexts[0]->listen("127.0.0.1"),
         contexts[1]->listen("127.0.0.1"),
         contexts[2]->listen("127.0.0.1")};
-    auto context = tensorpipe::channel::mpt::create(
+    auto context = tensorpipe_npu::channel::mpt::create(
         std::move(contexts), std::move(listeners));
     context->setId(std::move(id));
     return context;
@@ -53,16 +53,16 @@ class ContextIsNotJoinedTest : public ChannelTestCase {
     peers_ = helper_->makePeerGroup();
     peers_->spawn(
         [&] {
-          auto context = tensorpipe::transport::uv::create();
+          auto context = tensorpipe_npu::transport::uv::create();
           context->setId("server_harness");
 
           auto listener = context->listen(addr);
 
-          std::promise<std::shared_ptr<tensorpipe::transport::Connection>>
+          std::promise<std::shared_ptr<tensorpipe_npu::transport::Connection>>
               connectionProm;
           listener->accept(
-              [&](const tensorpipe::Error& error,
-                  std::shared_ptr<tensorpipe::transport::Connection>
+              [&](const tensorpipe_npu::Error& error,
+                  std::shared_ptr<tensorpipe_npu::transport::Connection>
                       connection) {
                 ASSERT_FALSE(error) << error.what();
                 connectionProm.set_value(std::move(connection));
@@ -74,7 +74,7 @@ class ContextIsNotJoinedTest : public ChannelTestCase {
           context->join();
         },
         [&] {
-          auto context = tensorpipe::transport::uv::create();
+          auto context = tensorpipe_npu::transport::uv::create();
           context->setId("client_harness");
 
           auto laddr = peers_->recv(PeerGroup::kClient);
@@ -84,20 +84,20 @@ class ContextIsNotJoinedTest : public ChannelTestCase {
         });
   }
 
-  void server(std::shared_ptr<tensorpipe::transport::Connection> conn) {
-    std::shared_ptr<tensorpipe::channel::Context> context =
+  void server(std::shared_ptr<tensorpipe_npu::transport::Connection> conn) {
+    std::shared_ptr<tensorpipe_npu::channel::Context> context =
         this->helper_->makeContext("server");
     this->peers_->send(PeerGroup::kClient, kReady);
     context->createChannel(
-        {std::move(conn)}, tensorpipe::channel::Endpoint::kListen);
+        {std::move(conn)}, tensorpipe_npu::channel::Endpoint::kListen);
   }
 
-  void client(std::shared_ptr<tensorpipe::transport::Connection> conn) {
-    std::shared_ptr<tensorpipe::channel::Context> context =
+  void client(std::shared_ptr<tensorpipe_npu::transport::Connection> conn) {
+    std::shared_ptr<tensorpipe_npu::channel::Context> context =
         this->helper_->makeContext("client");
     EXPECT_EQ(kReady, this->peers_->recv(PeerGroup::kClient));
     context->createChannel(
-        {std::move(conn)}, tensorpipe::channel::Endpoint::kConnect);
+        {std::move(conn)}, tensorpipe_npu::channel::Endpoint::kConnect);
   }
 
  protected:

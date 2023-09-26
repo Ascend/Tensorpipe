@@ -23,7 +23,7 @@
 #include <tensorpipe/common/error.h>
 #include <tensorpipe/common/optional.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 namespace {
 
@@ -149,4 +149,4 @@ class CallbackWrapper {
   }
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

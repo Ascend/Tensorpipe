@@ -14,7 +14,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/common/dl.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Master list of all symbols we care about from libibverbs.
 
@@ -704,4 +704,4 @@ class IbvLib {
 
 #undef TP_FORALL_IBV_SYMBOLS
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

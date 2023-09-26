@@ -11,7 +11,7 @@
 
 #include <cstddef>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -30,5 +30,5 @@ static_assert(kStagingAreaSize == kSlotSize * kNumSlots, "");
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

@@ -19,7 +19,7 @@
 #include <tensorpipe/common/defs.h>
 #include <tensorpipe/transport/connection.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace mpt {
 
@@ -346,4 +346,4 @@ void ChannelImpl::handleErrorImpl() {
 
 } // namespace mpt
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

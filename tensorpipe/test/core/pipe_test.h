@@ -25,7 +25,7 @@
 
 struct Storage {
   std::vector<std::shared_ptr<void>> payloads;
-  std::vector<std::pair<std::shared_ptr<void>, tensorpipe::Buffer>> tensors;
+  std::vector<std::pair<std::shared_ptr<void>, tensorpipe_npu::Buffer>> tensors;
 };
 
 struct InlineMessage {
@@ -37,8 +37,8 @@ struct InlineMessage {
   struct Tensor {
     std::string data;
     std::string metadata;
-    tensorpipe::Device device;
-    tensorpipe::optional<tensorpipe::Device> targetDevice;
+    tensorpipe_npu::Device device;
+    tensorpipe_npu::optional<tensorpipe_npu::Device> targetDevice;
   };
 
   std::vector<Payload> payloads;
@@ -46,9 +46,9 @@ struct InlineMessage {
   std::string metadata;
 };
 
-inline std::pair<tensorpipe::Message, Storage> makeMessage(
+inline std::pair<tensorpipe_npu::Message, Storage> makeMessage(
     InlineMessage imessage) {
-  tensorpipe::Message message;
+  tensorpipe_npu::Message message;
   Storage storage;
 
   for (auto& payload : imessage.payloads) {
@@ -66,13 +66,13 @@ inline std::pair<tensorpipe::Message, Storage> makeMessage(
 
   for (auto& tensor : imessage.tensors) {
     size_t length = tensor.data.length();
-    tensorpipe::Buffer buffer;
+    tensorpipe_npu::Buffer buffer;
     std::shared_ptr<void> data;
-    if (tensor.device.type == tensorpipe::kCpuDeviceType) {
+    if (tensor.device.type == tensorpipe_npu::kCpuDeviceType) {
       data = std::unique_ptr<uint8_t, std::default_delete<uint8_t[]>>(
           new uint8_t[length]);
       std::memcpy(data.get(), &tensor.data[0], length);
-      buffer = tensorpipe::CpuBuffer{.ptr = data.get()};
+      buffer = tensorpipe_npu::CpuBuffer{.ptr = data.get()};
     } else {
       ADD_FAILURE() << "Unexpected source device: " << tensor.device.toString();
     }
@@ -91,10 +91,10 @@ inline std::pair<tensorpipe::Message, Storage> makeMessage(
   return {std::move(message), std::move(storage)};
 }
 
-inline std::pair<tensorpipe::Allocation, Storage> makeAllocation(
-    const tensorpipe::Descriptor& descriptor,
-    const std::vector<tensorpipe::Device>& devices) {
-  tensorpipe::Allocation allocation;
+inline std::pair<tensorpipe_npu::Allocation, Storage> makeAllocation(
+    const tensorpipe_npu::Descriptor& descriptor,
+    const std::vector<tensorpipe_npu::Device>& devices) {
+  tensorpipe_npu::Allocation allocation;
   Storage storage;
   for (const auto& payload : descriptor.payloads) {
     auto data = std::unique_ptr<uint8_t, std::default_delete<uint8_t[]>>(
@@ -107,16 +107,16 @@ inline std::pair<tensorpipe::Allocation, Storage> makeAllocation(
   for (size_t tensorIdx = 0; tensorIdx < descriptor.tensors.size();
        ++tensorIdx) {
     const auto& tensor = descriptor.tensors[tensorIdx];
-    tensorpipe::Device targetDevice = devices[tensorIdx];
+    tensorpipe_npu::Device targetDevice = devices[tensorIdx];
 
     if (tensor.targetDevice.has_value()) {
       TP_DCHECK(targetDevice == *tensor.targetDevice);
     }
 
-    if (targetDevice.type == tensorpipe::kCpuDeviceType) {
+    if (targetDevice.type == tensorpipe_npu::kCpuDeviceType) {
       auto data = std::unique_ptr<uint8_t, std::default_delete<uint8_t[]>>(
           new uint8_t[tensor.length]);
-      tensorpipe::Buffer buffer = tensorpipe::CpuBuffer{.ptr = data.get()};
+      tensorpipe_npu::Buffer buffer = tensorpipe_npu::CpuBuffer{.ptr = data.get()};
       allocation.tensors.push_back({.buffer = buffer});
       storage.tensors.push_back({std::move(data), std::move(buffer)});
     } else {
@@ -128,14 +128,14 @@ inline std::pair<tensorpipe::Allocation, Storage> makeAllocation(
 }
 
 inline std::future<void> pipeWriteWithFuture(
-    tensorpipe::Pipe& pipe,
-    tensorpipe::Message message) {
+    tensorpipe_npu::Pipe& pipe,
+    tensorpipe_npu::Message message) {
   auto promise = std::make_shared<std::promise<void>>();
   auto future = promise->get_future();
 
   pipe.write(
       std::move(message),
-      [promise{std::move(promise)}](const tensorpipe::Error& error) {
+      [promise{std::move(promise)}](const tensorpipe_npu::Error& error) {
         if (error) {
           promise->set_exception(
               std::make_exception_ptr(std::runtime_error(error.what())));
@@ -148,39 +148,39 @@ inline std::future<void> pipeWriteWithFuture(
   return future;
 }
 
-inline std::future<std::tuple<tensorpipe::Descriptor, Storage>>
+inline std::future<std::tuple<tensorpipe_npu::Descriptor, Storage>>
 pipeReadWithFuture(
-    tensorpipe::Pipe& pipe,
-    std::vector<tensorpipe::Device> targetDevices) {
+    tensorpipe_npu::Pipe& pipe,
+    std::vector<tensorpipe_npu::Device> targetDevices) {
   auto promise = std::make_shared<
-      std::promise<std::tuple<tensorpipe::Descriptor, Storage>>>();
+      std::promise<std::tuple<tensorpipe_npu::Descriptor, Storage>>>();
   auto future = promise->get_future();
   pipe.readDescriptor([&pipe,
                        promise{std::move(promise)},
                        targetDevices{std::move(targetDevices)}](
-                          const tensorpipe::Error& error,
-                          tensorpipe::Descriptor descriptor) mutable {
+                          const tensorpipe_npu::Error& error,
+                          tensorpipe_npu::Descriptor descriptor) mutable {
     if (error) {
       promise->set_exception(
           std::make_exception_ptr(std::runtime_error(error.what())));
       return;
     }
 
-    tensorpipe::Allocation allocation;
+    tensorpipe_npu::Allocation allocation;
     Storage storage;
     std::tie(allocation, storage) = makeAllocation(descriptor, targetDevices);
     pipe.read(
         std::move(allocation),
         [promise{std::move(promise)},
          descriptor{std::move(descriptor)},
-         storage{std::move(storage)}](const tensorpipe::Error& error) mutable {
+         storage{std::move(storage)}](const tensorpipe_npu::Error& error) mutable {
           if (error) {
             promise->set_exception(
                 std::make_exception_ptr(std::runtime_error(error.what())));
             return;
           }
 
-          promise->set_value(std::make_tuple<tensorpipe::Descriptor, Storage>(
+          promise->set_value(std::make_tuple<tensorpipe_npu::Descriptor, Storage>(
               std::move(descriptor), std::move(storage)));
         });
   });
@@ -189,7 +189,7 @@ pipeReadWithFuture(
 }
 
 inline void expectDescriptorAndStorageMatchMessage(
-    tensorpipe::Descriptor descriptor,
+    tensorpipe_npu::Descriptor descriptor,
     Storage storage,
     InlineMessage imessage) {
   EXPECT_EQ(imessage.metadata, descriptor.metadata);
@@ -217,15 +217,15 @@ inline void expectDescriptorAndStorageMatchMessage(
     EXPECT_EQ(
         imessage.tensors[idx].targetDevice,
         descriptor.tensors[idx].targetDevice);
-    const tensorpipe::Device& device = storage.tensors[idx].second.device();
+    const tensorpipe_npu::Device& device = storage.tensors[idx].second.device();
     EXPECT_TRUE(
         !imessage.tensors[idx].targetDevice ||
         imessage.tensors[idx].targetDevice == device);
     size_t length = descriptor.tensors[idx].length;
     EXPECT_EQ(imessage.tensors[idx].data.length(), length);
-    if (device.type == tensorpipe::kCpuDeviceType) {
-      const tensorpipe::CpuBuffer& buffer =
-          storage.tensors[idx].second.unwrap<tensorpipe::CpuBuffer>();
+    if (device.type == tensorpipe_npu::kCpuDeviceType) {
+      const tensorpipe_npu::CpuBuffer& buffer =
+          storage.tensors[idx].second.unwrap<tensorpipe_npu::CpuBuffer>();
       EXPECT_EQ(
           imessage.tensors[idx].data,
           std::string(static_cast<char*>(buffer.ptr), length));
@@ -246,19 +246,19 @@ inline std::vector<std::string> genUrls() {
   return res;
 }
 
-inline std::shared_ptr<tensorpipe::Context> makeContext() {
-  auto context = std::make_shared<tensorpipe::Context>();
+inline std::shared_ptr<tensorpipe_npu::Context> makeContext() {
+  auto context = std::make_shared<tensorpipe_npu::Context>();
 
-  context->registerTransport(0, "uv", tensorpipe::transport::uv::create());
+  context->registerTransport(0, "uv", tensorpipe_npu::transport::uv::create());
 #if TENSORPIPE_HAS_SHM_TRANSPORT
-  context->registerTransport(1, "shm", tensorpipe::transport::shm::create());
+  context->registerTransport(1, "shm", tensorpipe_npu::transport::shm::create());
 #endif // TENSORPIPE_HAS_SHM_TRANSPORT
-  context->registerChannel(100, "basic", tensorpipe::channel::basic::create());
+  context->registerChannel(100, "basic", tensorpipe_npu::channel::basic::create());
 #if TENSORPIPE_HAS_CMA_CHANNEL
-  context->registerChannel(101, "cma", tensorpipe::channel::cma::create());
+  context->registerChannel(101, "cma", tensorpipe_npu::channel::cma::create());
 #endif // TENSORPIPE_HAS_CMA_CHANNEL
-  context->registerChannel(10, "npu_basic", tensorpipe::channel::npu_basic::create(
-  tensorpipe::channel::basic::create()));
+  context->registerChannel(10, "npu_basic", tensorpipe_npu::channel::npu_basic::create(
+  tensorpipe_npu::channel::basic::create()));
 
   return context;
 }
@@ -275,9 +275,9 @@ class ClientServerPipeTestCase {
           auto listener = context->listen(genUrls());
           pg_.send(PeerGroup::kClient, listener->url("uv"));
 
-          std::promise<std::shared_ptr<tensorpipe::Pipe>> promise;
-          listener->accept([&](const tensorpipe::Error& error,
-                               std::shared_ptr<tensorpipe::Pipe> pipe) {
+          std::promise<std::shared_ptr<tensorpipe_npu::Pipe>> promise;
+          listener->accept([&](const tensorpipe_npu::Error& error,
+                               std::shared_ptr<tensorpipe_npu::Pipe> pipe) {
             if (error) {
               promise.set_exception(
                   std::make_exception_ptr(std::runtime_error(error.what())));
@@ -286,7 +286,7 @@ class ClientServerPipeTestCase {
             }
           });
 
-          std::shared_ptr<tensorpipe::Pipe> pipe = promise.get_future().get();
+          std::shared_ptr<tensorpipe_npu::Pipe> pipe = promise.get_future().get();
           server(*pipe);
 
           pg_.done(PeerGroup::kServer);
@@ -309,8 +309,8 @@ class ClientServerPipeTestCase {
         });
   }
 
-  virtual void client(tensorpipe::Pipe& pipe) = 0;
-  virtual void server(tensorpipe::Pipe& pipe) = 0;
+  virtual void client(tensorpipe_npu::Pipe& pipe) = 0;
+  virtual void server(tensorpipe_npu::Pipe& pipe) = 0;
 
   virtual ~ClientServerPipeTestCase() = default;
 };

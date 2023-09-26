@@ -12,7 +12,7 @@
 #include <memory>
 #include <string>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 // Base class for actual errors.
 class BaseError {
@@ -125,4 +125,4 @@ class EOFError final : public BaseError {
   std::string what() const override;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

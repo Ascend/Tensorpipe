@@ -30,7 +30,7 @@
 
 class DataWrapper {
  public:
-  virtual tensorpipe::Buffer buffer() const = 0;
+  virtual tensorpipe_npu::Buffer buffer() const = 0;
 
   virtual size_t bufferLength() const = 0;
 
@@ -43,10 +43,10 @@ class ChannelTestHelper {
  public:
   virtual ~ChannelTestHelper() = default;
 
-  std::shared_ptr<tensorpipe::channel::Context> makeContext(
+  std::shared_ptr<tensorpipe_npu::channel::Context> makeContext(
       std::string id,
       bool skipViabilityCheck = false) {
-    std::shared_ptr<tensorpipe::channel::Context> ctx =
+    std::shared_ptr<tensorpipe_npu::channel::Context> ctx =
         makeContextInternal(std::move(id));
     if (!skipViabilityCheck) {
       EXPECT_TRUE(ctx->isViable());
@@ -63,51 +63,51 @@ class ChannelTestHelper {
       std::vector<uint8_t> v) = 0;
 
  protected:
-  virtual std::shared_ptr<tensorpipe::channel::Context> makeContextInternal(
+  virtual std::shared_ptr<tensorpipe_npu::channel::Context> makeContextInternal(
       std::string id) = 0;
 };
 
-[[nodiscard]] inline std::future<tensorpipe::Error> sendWithFuture(
-    std::shared_ptr<tensorpipe::channel::Channel> channel,
-    tensorpipe::Buffer buffer,
+[[nodiscard]] inline std::future<tensorpipe_npu::Error> sendWithFuture(
+    std::shared_ptr<tensorpipe_npu::channel::Channel> channel,
+    tensorpipe_npu::Buffer buffer,
     size_t length) {
-  auto promise = std::make_shared<std::promise<tensorpipe::Error>>();
+  auto promise = std::make_shared<std::promise<tensorpipe_npu::Error>>();
   auto future = promise->get_future();
 
   channel->send(
       buffer,
       length,
-      [promise{std::move(promise)}](const tensorpipe::Error& error) {
+      [promise{std::move(promise)}](const tensorpipe_npu::Error& error) {
         promise->set_value(error);
       });
   return future;
 }
 
-[[nodiscard]] inline std::future<tensorpipe::Error> sendWithFuture(
-    std::shared_ptr<tensorpipe::channel::Channel> channel,
+[[nodiscard]] inline std::future<tensorpipe_npu::Error> sendWithFuture(
+    std::shared_ptr<tensorpipe_npu::channel::Channel> channel,
     const DataWrapper& dataWrapper) {
   return sendWithFuture(
       std::move(channel), dataWrapper.buffer(), dataWrapper.bufferLength());
 }
 
-[[nodiscard]] inline std::future<tensorpipe::Error> recvWithFuture(
-    std::shared_ptr<tensorpipe::channel::Channel> channel,
-    tensorpipe::Buffer buffer,
+[[nodiscard]] inline std::future<tensorpipe_npu::Error> recvWithFuture(
+    std::shared_ptr<tensorpipe_npu::channel::Channel> channel,
+    tensorpipe_npu::Buffer buffer,
     size_t length) {
-  auto promise = std::make_shared<std::promise<tensorpipe::Error>>();
+  auto promise = std::make_shared<std::promise<tensorpipe_npu::Error>>();
   auto future = promise->get_future();
 
   channel->recv(
       buffer,
       length,
-      [promise{std::move(promise)}](const tensorpipe::Error& error) {
+      [promise{std::move(promise)}](const tensorpipe_npu::Error& error) {
         promise->set_value(error);
       });
   return future;
 }
 
-[[nodiscard]] inline std::future<tensorpipe::Error> recvWithFuture(
-    std::shared_ptr<tensorpipe::channel::Channel> channel,
+[[nodiscard]] inline std::future<tensorpipe_npu::Error> recvWithFuture(
+    std::shared_ptr<tensorpipe_npu::channel::Channel> channel,
     const DataWrapper& dataWrapper) {
   return recvWithFuture(
       std::move(channel), dataWrapper.buffer(), dataWrapper.bufferLength());
@@ -122,8 +122,8 @@ class ChannelTestCase {
 
 class ClientServerChannelTestCase : public ChannelTestCase {
   using MultiAcceptResult = std::pair<
-      tensorpipe::Error,
-      std::vector<std::shared_ptr<tensorpipe::transport::Connection>>>;
+      tensorpipe_npu::Error,
+      std::vector<std::shared_ptr<tensorpipe_npu::transport::Connection>>>;
 
   class MultiAcceptResultPromise {
    public:
@@ -147,12 +147,12 @@ class ClientServerChannelTestCase : public ChannelTestCase {
 
     void setConnection(
         size_t connId,
-        std::shared_ptr<tensorpipe::transport::Connection> connection) {
+        std::shared_ptr<tensorpipe_npu::transport::Connection> connection) {
       EXPECT_LT(connId, connections_.size());
       connections_[connId] = std::move(connection);
     }
 
-    void setError(tensorpipe::Error error) {
+    void setError(tensorpipe_npu::Error error) {
       std::unique_lock<std::mutex> lock(errorMutex_);
       if (error_) {
         return;
@@ -161,29 +161,29 @@ class ClientServerChannelTestCase : public ChannelTestCase {
     }
 
    private:
-    tensorpipe::Error error_{tensorpipe::Error::kSuccess};
+    tensorpipe_npu::Error error_{tensorpipe_npu::Error::kSuccess};
     std::mutex errorMutex_;
-    std::vector<std::shared_ptr<tensorpipe::transport::Connection>>
+    std::vector<std::shared_ptr<tensorpipe_npu::transport::Connection>>
         connections_;
     std::promise<MultiAcceptResult> promise_;
   };
 
   std::future<MultiAcceptResult> accept(
-      tensorpipe::transport::Listener& listener,
+      tensorpipe_npu::transport::Listener& listener,
       size_t numConnections) {
     auto promise = std::make_shared<MultiAcceptResultPromise>(numConnections);
     for (size_t i = 0; i < numConnections; ++i) {
       listener.accept(
           [promise](
-              const tensorpipe::Error& error,
-              std::shared_ptr<tensorpipe::transport::Connection> connection) {
+              const tensorpipe_npu::Error& error,
+              std::shared_ptr<tensorpipe_npu::transport::Connection> connection) {
             if (error) {
               promise->setError(std::move(error));
               return;
             }
 
             connection->read([promise, connection](
-                                 const tensorpipe::Error& error,
+                                 const tensorpipe_npu::Error& error,
                                  const void* connIdBuf,
                                  size_t length) mutable {
               if (error) {
@@ -200,11 +200,11 @@ class ClientServerChannelTestCase : public ChannelTestCase {
     return promise->getFuture();
   }
 
-  std::vector<std::shared_ptr<tensorpipe::transport::Connection>> connect(
-      std::shared_ptr<tensorpipe::transport::Context> transportCtx,
+  std::vector<std::shared_ptr<tensorpipe_npu::transport::Connection>> connect(
+      std::shared_ptr<tensorpipe_npu::transport::Context> transportCtx,
       std::string addr,
       size_t numConnections) {
-    std::vector<std::shared_ptr<tensorpipe::transport::Connection>> connections(
+    std::vector<std::shared_ptr<tensorpipe_npu::transport::Connection>> connections(
         numConnections);
     for (size_t connId = 0; connId < numConnections; ++connId) {
       connections[connId] = transportCtx->connect(addr);
@@ -212,7 +212,7 @@ class ClientServerChannelTestCase : public ChannelTestCase {
       connections[connId]->write(
           connIdBuf.get(),
           sizeof(uint64_t),
-          [connIdBuf](const tensorpipe::Error& error) {
+          [connIdBuf](const tensorpipe_npu::Error& error) {
             EXPECT_FALSE(error) << error.what();
           });
     }
@@ -228,7 +228,7 @@ class ClientServerChannelTestCase : public ChannelTestCase {
     peers_ = helper_->makePeerGroup();
     peers_->spawn(
         [&] {
-          auto transportCtx = tensorpipe::transport::uv::create();
+          auto transportCtx = tensorpipe_npu::transport::uv::create();
           transportCtx->setId("server_harness");
           auto ctx = helper_->makeContext("server");
 
@@ -238,14 +238,14 @@ class ClientServerChannelTestCase : public ChannelTestCase {
               accept(*listener, ctx->numConnectionsNeeded());
           peers_->send(PeerGroup::kClient, listener->addr());
 
-          tensorpipe::Error connectionsError;
-          std::vector<std::shared_ptr<tensorpipe::transport::Connection>>
+          tensorpipe_npu::Error connectionsError;
+          std::vector<std::shared_ptr<tensorpipe_npu::transport::Connection>>
               connections;
           std::tie(connectionsError, connections) = connectionsFuture.get();
           EXPECT_FALSE(connectionsError) << connectionsError.what();
 
           auto channel = ctx->createChannel(
-              std::move(connections), tensorpipe::channel::Endpoint::kListen);
+              std::move(connections), tensorpipe_npu::channel::Endpoint::kListen);
 
           server(std::move(channel));
 
@@ -255,7 +255,7 @@ class ClientServerChannelTestCase : public ChannelTestCase {
           afterServer();
         },
         [&] {
-          auto transportCtx = tensorpipe::transport::uv::create();
+          auto transportCtx = tensorpipe_npu::transport::uv::create();
           transportCtx->setId("client_harness");
           auto ctx = helper_->makeContext("client");
 
@@ -265,7 +265,7 @@ class ClientServerChannelTestCase : public ChannelTestCase {
               connect(transportCtx, laddr, ctx->numConnectionsNeeded());
 
           auto channel = ctx->createChannel(
-              std::move(connections), tensorpipe::channel::Endpoint::kConnect);
+              std::move(connections), tensorpipe_npu::channel::Endpoint::kConnect);
 
           client(std::move(channel));
 
@@ -277,9 +277,9 @@ class ClientServerChannelTestCase : public ChannelTestCase {
   }
 
   virtual void server(
-      std::shared_ptr<tensorpipe::channel::Channel> /* channel */) {}
+      std::shared_ptr<tensorpipe_npu::channel::Channel> /* channel */) {}
   virtual void client(
-      std::shared_ptr<tensorpipe::channel::Channel> /* channel */) {}
+      std::shared_ptr<tensorpipe_npu::channel::Channel> /* channel */) {}
 
   virtual void afterServer() {}
   virtual void afterClient() {}

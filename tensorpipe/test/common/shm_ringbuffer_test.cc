@@ -20,7 +20,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
+using namespace tensorpipe_npu;
 
 constexpr static int kNumRingbufferRoles = 2;
 using Consumer = RingBufferRole<kNumRingbufferRoles, 0>;

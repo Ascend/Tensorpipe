@@ -26,7 +26,7 @@
 #include <tensorpipe/transport/ibv/reactor.h>
 #include <tensorpipe/transport/ibv/sockaddr.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace transport {
 namespace ibv {
 
@@ -178,4 +178,4 @@ class ConnectionImpl final : public ConnectionImplBoilerplate<
 
 } // namespace ibv
 } // namespace transport
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

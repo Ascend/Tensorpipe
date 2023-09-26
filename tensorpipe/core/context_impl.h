@@ -22,7 +22,7 @@
 #include <tensorpipe/core/context.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class ListenerImpl;
 class PipeImpl;
@@ -145,4 +145,4 @@ class ContextImpl final : public virtual DeferredExecutor,
   friend class CallbackWrapper;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

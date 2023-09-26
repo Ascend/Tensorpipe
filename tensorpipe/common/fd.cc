@@ -15,7 +15,7 @@
 #include <tensorpipe/common/error.h>
 #include <tensorpipe/common/error_macros.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 ssize_t Fd::read(void* buf, size_t count) {
   ssize_t rv = -1;
@@ -66,4 +66,4 @@ Error Fd::writeFull(const void* buf, size_t count) {
   return Error::kSuccess;
 }
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

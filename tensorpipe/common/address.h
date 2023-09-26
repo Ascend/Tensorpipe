@@ -11,7 +11,7 @@
 
 #include <string>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 std::tuple<std::string, std::string> splitSchemeOfURL(const std::string& url);
 

@@ -19,7 +19,7 @@
 #include <tensorpipe/common/npu.h>
 #include <tensorpipe/common/nop.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace npu_basic {
 
@@ -189,5 +189,5 @@ void ContextImpl::setIdImpl() {
 
 } // namespace npu_basic
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

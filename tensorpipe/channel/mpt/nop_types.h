@@ -16,7 +16,7 @@
 #include <nop/structure.h>
 #include <nop/types/variant.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace channel {
 namespace mpt {
 
@@ -45,4 +45,4 @@ using Packet = nop::Variant<ServerHello, ClientHello>;
 
 } // namespace mpt
 } // namespace channel
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

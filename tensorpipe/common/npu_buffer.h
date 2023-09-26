@@ -15,7 +15,7 @@
 #include "third_party/acl/inc/acl/acl.h"
 
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 struct NPUBuffer {
   void* ptr{nullptr};
@@ -24,5 +24,5 @@ struct NPUBuffer {
   Device getDevice() const;
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
 

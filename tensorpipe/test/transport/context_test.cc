@@ -11,8 +11,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace tensorpipe;
-using namespace tensorpipe::transport;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::transport;
 
 TEST_P(TransportTest, Context_Basics) {
   auto context = GetParam()->getContext();

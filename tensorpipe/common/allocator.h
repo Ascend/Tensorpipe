@@ -17,7 +17,7 @@
 
 #include <tensorpipe/common/error.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 
 class AllocatorClosedError final : public BaseError {
   std::string what() const override {
@@ -55,4 +55,4 @@ class Allocator {
   void releaseChunk(uint8_t* ptr);
 };
 
-} // namespace tensorpipe
+} // namespace tensorpipe_npu

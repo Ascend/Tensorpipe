@@ -21,9 +21,9 @@
 
 class TransportTestHelper {
  public:
-  std::shared_ptr<tensorpipe::transport::Context> getContext(
+  std::shared_ptr<tensorpipe_npu::transport::Context> getContext(
       bool skipViabilityCheck = false) {
-    std::shared_ptr<tensorpipe::transport::Context> ctx = getContextInternal();
+    std::shared_ptr<tensorpipe_npu::transport::Context> ctx = getContextInternal();
     if (!skipViabilityCheck) {
       EXPECT_TRUE(ctx->isViable());
     }
@@ -39,7 +39,7 @@ class TransportTestHelper {
   virtual ~TransportTestHelper() = default;
 
  protected:
-  virtual std::shared_ptr<tensorpipe::transport::Context>
+  virtual std::shared_ptr<tensorpipe_npu::transport::Context>
   getContextInternal() = 0;
 };
 
@@ -51,11 +51,11 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
   TransportTest() : peers_(GetParam()->makePeerGroup()) {}
 
   void testConnection(
-      std::function<void(std::shared_ptr<tensorpipe::transport::Connection>)>
+      std::function<void(std::shared_ptr<tensorpipe_npu::transport::Connection>)>
           listeningFn,
-      std::function<void(std::shared_ptr<tensorpipe::transport::Connection>)>
+      std::function<void(std::shared_ptr<tensorpipe_npu::transport::Connection>)>
           connectingFn) {
-    using namespace tensorpipe::transport;
+    using namespace tensorpipe_npu::transport;
 
     peers_->spawn(
         [&] {
@@ -64,7 +64,7 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
           auto addr = GetParam()->defaultAddr();
           auto listener = ctx->listen(addr);
           std::promise<std::shared_ptr<Connection>> connectionProm;
-          listener->accept([&](const tensorpipe::Error& error,
+          listener->accept([&](const tensorpipe_npu::Error& error,
                                std::shared_ptr<Connection> conn) {
             ASSERT_FALSE(error) << error.what();
             connectionProm.set_value(std::move(conn));
@@ -118,15 +118,15 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
   }
 
   void doRead(
-      std::shared_ptr<tensorpipe::transport::Connection> conn,
-      tensorpipe::transport::Connection::read_callback_fn fn) {
+      std::shared_ptr<tensorpipe_npu::transport::Connection> conn,
+      tensorpipe_npu::transport::Connection::read_callback_fn fn) {
     auto mutex = std::make_shared<std::mutex>();
     std::lock_guard<std::mutex> outerLock(*mutex);
     // We acquire the same mutex while calling read and inside its callback so
     // that we deadlock if the callback is invoked inline.
     conn->read(
         [fn{std::move(fn)}, mutex, bomb{armBomb()}](
-            const tensorpipe::Error& error, const void* ptr, size_t len) {
+            const tensorpipe_npu::Error& error, const void* ptr, size_t len) {
           std::lock_guard<std::mutex> innerLock(*mutex);
           bomb->defuse();
           fn(error, ptr, len);
@@ -134,10 +134,10 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
   }
 
   void doRead(
-      std::shared_ptr<tensorpipe::transport::Connection> conn,
+      std::shared_ptr<tensorpipe_npu::transport::Connection> conn,
       void* ptr,
       size_t length,
-      tensorpipe::transport::Connection::read_callback_fn fn) {
+      tensorpipe_npu::transport::Connection::read_callback_fn fn) {
     auto mutex = std::make_shared<std::mutex>();
     std::lock_guard<std::mutex> outerLock(*mutex);
     // We acquire the same mutex while calling read and inside its callback so
@@ -146,7 +146,7 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
         ptr,
         length,
         [fn{std::move(fn)}, mutex, bomb{armBomb()}](
-            const tensorpipe::Error& error, const void* ptr, size_t len) {
+            const tensorpipe_npu::Error& error, const void* ptr, size_t len) {
           std::lock_guard<std::mutex> innerLock(*mutex);
           bomb->defuse();
           fn(error, ptr, len);
@@ -154,10 +154,10 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
   }
 
   void doWrite(
-      std::shared_ptr<tensorpipe::transport::Connection> conn,
+      std::shared_ptr<tensorpipe_npu::transport::Connection> conn,
       const void* ptr,
       size_t length,
-      tensorpipe::transport::Connection::write_callback_fn fn) {
+      tensorpipe_npu::transport::Connection::write_callback_fn fn) {
     auto mutex = std::make_shared<std::mutex>();
     // We acquire the same mutex while calling write and inside its callback
     // so that we deadlock if the callback is invoked inline.
@@ -166,7 +166,7 @@ class TransportTest : public ::testing::TestWithParam<TransportTestHelper*> {
         ptr,
         length,
         [fn{std::move(fn)}, mutex, bomb{armBomb()}](
-            const tensorpipe::Error& error) {
+            const tensorpipe_npu::Error& error) {
           std::lock_guard<std::mutex> innerLock(*mutex);
           bomb->defuse();
           fn(error);

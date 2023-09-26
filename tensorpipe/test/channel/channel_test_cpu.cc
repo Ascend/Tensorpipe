@@ -13,8 +13,8 @@
 
 #include <tensorpipe/test/channel/channel_test.h>
 
-using namespace tensorpipe;
-using namespace tensorpipe::channel;
+using namespace tensorpipe_npu;
+using namespace tensorpipe_npu::channel;
 
 // Call send and recv with a null pointer and a length of 0.
 class NullPointerTest : public ClientServerChannelTestCase {

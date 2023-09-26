@@ -14,7 +14,7 @@
 #include <tensorpipe/channel/context.h>
 #include <tensorpipe/transport/context.h>
 
-namespace tensorpipe {
+namespace tensorpipe_npu {
 namespace benchmark {
 
 enum class TensorType {
@@ -40,4 +40,4 @@ struct Options {
 struct Options parseOptions(int argc, char** argv);
 
 } // namespace benchmark
-} // namespace tensorpipe
+} // namespace tensorpipe_npu
