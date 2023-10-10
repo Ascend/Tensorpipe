@@ -13,7 +13,7 @@ function main()
     fi
     mkdir ./build
 
-    bash ./thrid_party/acl/libs/build_stub.sh
+    bash ./third_party/acl/libs/build_stub.sh
 
     cd ./build
     cmake ../ -DTP_ENABLE_SHM=ON -DTP_ENABLE_CMA=ON -DTP_ENABLE_IBV=OFF -DTP_TEST_NPU=OFF

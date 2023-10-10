@@ -157,9 +157,9 @@ struct Options parseOptions(int argc, char** argv) {
       case METADATA_SIZE:
         options.metadataSize = std::strtoull(optarg, nullptr, 10);
         break;
-	  case NPU_SYNC_PERIOD:
-	  	options.npuSyncPeriod = std::strtoull(optarg, nullptr, 10);
-		break;
+      case NPU_SYNC_PERIOD:
+        options.npuSyncPeriod = std::strtoull(optarg, nullptr, 10);
+      break;
       case HELP:
         usage(EXIT_SUCCESS, argv[0]);
         break;

@@ -53,7 +53,7 @@ TP_REGISTER_CREATOR(TensorpipeChannelRegistry, xth, makeXthChannel);
 //NPU basic
 std::shared_ptr<tensorpipe_npu::channel::Context> makeNPUBasicChannel() {
   return tensorpipe_npu::channel::npu_basic::create(
-  	tensorpipe_npu::channel::basic::create());
+    tensorpipe_npu::channel::basic::create());
 }
 
 TP_REGISTER_CREATOR(TensorpipeChannelRegistry, npu_basic, makeNPUBasicChannel);
