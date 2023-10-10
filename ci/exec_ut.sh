@@ -12,4 +12,4 @@ function main()
     exit 0
 }
 
-mian "$@"
+main "$@"

@@ -32,15 +32,15 @@ using Payload = std::unique_ptr<uint8_t[]>;
 using CpuTensor = std::unique_ptr<uint8_t[]>;
 
 struct NpuMemoryDeleter {
-    void operator()(void* ptr) {
-        TP_NPU_CHECK(aclrtFree(ptr));
-	}
+  void operator()(void* ptr) {
+    TP_NPU_CHECK(aclrtFree(ptr));
+  }
 };
 
 struct NpuStreamDeleter {
-    void operator()(aclrtStream stream) {
-        TP_NPU_CHECK(aclrtDestroyStream(stream));
-	}
+  void operator()(aclrtStream stream) {
+    TP_NPU_CHECK(aclrtDestroyStream(stream));
+  }
 };
 
 using NpuTensor = std::unique_ptr<uint8_t[], NpuMemoryDeleter>;
@@ -181,10 +181,10 @@ static void serverPongPingNonBlock(
               };
             } else if (data.tensorType == TensorType::kNpu) {
               allocation.tensors[tensorIdx].buffer = NPUBuffer{
-                  .ptr = data.temporaryNpuTensor[tensorIdx].get(),
-				  .stream = data.npuStream.get(),
-              	};
-			} else {
+                .ptr = data.temporaryNpuTensor[tensorIdx].get(),
+                .stream = data.npuStream.get(),
+              };
+            } else {
               TP_THROW_ASSERT() << "Unknown tensor type";
             }
           }
@@ -244,8 +244,7 @@ static void serverPongPingNonBlock(
                         0);
                   } else if (data.tensorType == TensorType::kNpu) {
                     // No (easy) way to do a memcmp with NPU 
-
-				  }else {
+                  } else {
                     TP_THROW_ASSERT() << "Unknown tensor type";
                   }
                   message.tensors[tensorIdx] = {
@@ -316,8 +315,8 @@ static void runServer(const Options& options) {
     } else if (options.tensorType == TensorType::kNpu) {
       data.expectedNpuTensor.push_back(createFullNpuData(options.tensorSize));
       data.temporaryNpuTensor.push_back(createEmptyNpuData(options.tensorSize));
-	  data.npuStream = createNpuStream();
-	} else {
+      data.npuStream = createNpuStream();
+    } else {
       TP_THROW_ASSERT() << "Unknown tensor type";
     }
   }
@@ -387,9 +386,9 @@ static void clientPingPongNonBlock(
       } else if (data.tensorType == TensorType::kNpu) {
         tensor.buffer =
             NPUBuffer{.ptr = data.expectedNpuTensor[tensorIdx].get(),
-                     .stream = data.npuStream.get(),};
+                      .stream = data.npuStream.get(),};
         tensor.targetDevice = Device(kNpuDeviceType, 0);
-	  }else {
+      } else {
         TP_THROW_ASSERT() << "Unknown tensor type";
       }
       message.tensors.push_back(std::move(tensor));
@@ -446,9 +445,9 @@ static void clientPingPongNonBlock(
               } else if (data.tensorType == TensorType::kNpu) {
                 allocation.tensors[tensorIdx].buffer = NPUBuffer{
                     .ptr = data.temporaryNpuTensor[tensorIdx].get(),
-					.stream = data.npuStream.get(),
+                    .stream = data.npuStream.get(),
                 };
-			  }else {
+              } else {
                 TP_THROW_ASSERT() << "Unknown tensor type";
               }
             }
@@ -498,7 +497,7 @@ static void clientPingPongNonBlock(
                           0);
                     } else if (data.tensorType == TensorType::kNpu) {
                       // No (easy) way to do a memcmp with NPU;
-					} else {
+                    } else {
                       TP_THROW_ASSERT() << "Unknown tensor type";
                     }
                   }
@@ -554,8 +553,8 @@ static void runClient(const Options& options) {
     } else if (data.tensorType == TensorType::kNpu) {
       data.expectedNpuTensor.push_back(createFullNpuData(options.tensorSize));
       data.temporaryNpuTensor.push_back(createEmptyNpuData(options.tensorSize));
-	  data.npuStream = createNpuStream();
-	} else {
+      data.npuStream = createNpuStream();
+    } else {
       TP_THROW_ASSERT() << "Unknown tensor type";
     }
   }
