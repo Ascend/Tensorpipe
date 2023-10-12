@@ -9,4 +9,4 @@
 	url = https://gitee.com/mirrors/googletest.git
 [submodule "third_party/libnop"]
 	path = third_party/libnop
-	url = https://github.com/google/libnop.git
+	url = https://gitee.com/mirrors/libnop.git
